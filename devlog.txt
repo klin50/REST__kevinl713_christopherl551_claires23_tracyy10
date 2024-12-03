@@ -11,3 +11,6 @@ Updated design doc: explained gacha, added DB tables, changed insults feature, a
 claireS -- 2024-12-03
 
 Added README heading
+
+christopherL -- 2024-12-03
+Added login/logout starting code
