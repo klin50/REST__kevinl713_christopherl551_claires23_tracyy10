@@ -14,6 +14,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
+    print(API.foo())
     return render_template("home.html", x = "weeee")
 def login():
     return render_template("login.html", x = "weeee")
