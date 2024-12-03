@@ -1,3 +1,9 @@
+kevinL -- 2024-11-28
+Created html and added CSS for home
+
+kevinL -- 2024-11-30
+Created html and added CSS for Login and Register
+
 tracyY, kevinL -- 2024-12-03
 
 Updated design doc: explained gacha, added DB tables, changed insults feature, added explanation for penalty system.
