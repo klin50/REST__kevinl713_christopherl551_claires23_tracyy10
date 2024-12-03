@@ -1,8 +1,9 @@
 import os
-from build_db import *
 from flask import Flask, render_template, request, session, redirect
-import sqlite3   
-import csv       
+import sqlite3
+import csv
+import urllib.request
+import json
 
 app = Flask(__name__)
 secret = os.urandom(32)
@@ -15,7 +16,7 @@ def home():
         uname = session['username']  #Displays username
         logged = False
     return render_template("home.html",logged=logged,uname=uname)
-
+'''
 @app.route("/login")
 def disp_loginpage():
     return render_template('login.html') #Login Page Rendering
@@ -33,7 +34,15 @@ def authenticate():#Is called when the user tries to log into their account
 @app.route("/logout")
 def logout():
     session.pop('username', None)
-    return render_template('logout.html')#Similar to login page, just removes session
+    return
+'''
+@app.route("/gacha")
+def nasa():
+    with urllib.request.urlopen("https://api.nekosia.cat/api/v1/images/catgirl") as response:
+        html = response.read()
+        data = json.loads(html)
+        cat = key.read()
+    return render_template("gacha.html",text=data['copyright'],img1 = data['image'])
 
 if __name__ == "__main__":
     app.debug = True
