@@ -9,10 +9,12 @@
   <body class="bg-cover bg-fixed bg-gradient-to-r from-blue-400 to-purple-400">
     <nav class="p-6 text-indigo-600 p-4 ml-24">
       <div class="container mx-auto flex justify-between items-center">
-        <a href="file://///wsl.localhost/Ubuntu/home/klin50/REST__kevinl713_christopherl551_claires23_tracyy10/app/templates/home.html"><img src="bed.png" alt="bed" width="150" height="150"></a>
+        <a href=""><img src="bed.png" alt="bed" width="150" height="150"></a>
         <ul class="flex space-x-6 mr-24">
-          <li><a href="file://///wsl.localhost/Ubuntu/home/klin50/REST__kevinl713_christopherl551_claires23_tracyy10/app/templates/login.html" class="hover:underline transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-lg p-3 text-white font-semibold text-base">Sign in</a></li>
-          <li><a href="file://///wsl.localhost/Ubuntu/home/klin50/REST__kevinl713_christopherl551_claires23_tracyy10/app/templates/register.html" class="hover:underline transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-lg p-3 text-white font-semibold text-base">Signup</a></li>
+          <li><form action="/login">
+          <input type="submit" class="hover:underline transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-lg p-3 text-white font-semibold text-base cursor-pointer" value="Sign In"></form></li>
+          <li><form action="/register">
+          <input type="submit" class="hover:underline transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-lg p-3 text-white font-semibold text-base cursor-pointer" value="Sign Up"></form></li>
         </ul>
       </div>
     </nav>
@@ -51,7 +53,6 @@
         </div>
       </div>
     </section>
-    {{ x }}
   </body>
 
 </html>
