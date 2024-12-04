@@ -63,9 +63,15 @@ def register(): #Is called when user enters their username and password into the
     username = request.form.get('username')
     password = request.form.get('password')
     c, restdb = connect()
-    c.execute("INSERT INTO users(username, password, points) VALUES(?, ?, ?)", (username, password, 0))
-    restdb.close()
-    return redirect("/login")
+    matching = c.execute("SELECT * FROM users WHERE username = ?", username).fetchall()
+    if (len(matching) == 0): 
+        c.execute("INSERT INTO users(username, password, points) VALUES(?, ?, ?)", (username, password, 0))
+        restdb.close()
+        return redirect("/login")
+    else:
+        restdb.close()
+        flash("Username already exists")
+        return redirect("/register")
 
 def selectD():
     return render_template("selectD.html", x = "weeee")
@@ -73,9 +79,10 @@ def question():
     return render_template("question.html", x = "weeee")
 def gacha():
     return render_template("gacha.html", x = "weeee")
+@app.route("/collection")
 def collection():
     c, restdb = connect()
-    c.execute("SELECT * FROM cards WHERE userID = ?", session['userID'])
+    c.execute("SELECT * FROM cards WHERE userID = ?", session['userID']).fetchall()
     restdb.close()
     return render_template("collection.html", x = "weeee")
 
