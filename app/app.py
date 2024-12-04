@@ -4,11 +4,12 @@ import sqlite3
 import csv
 import urllib.request
 import json
+import requests
 
 app = Flask(__name__)
 secret = os.urandom(32)
 app.secret_key = secret
-
+'''
 @app.route("/")
 def home():
     if 'username' in session: #Checks if logged in
@@ -16,7 +17,6 @@ def home():
         uname = session['username']  #Displays username
         logged = False
     return render_template("home.html",logged=logged,uname=uname)
-'''
 @app.route("/login")
 def disp_loginpage():
     return render_template('login.html') #Login Page Rendering
@@ -36,13 +36,11 @@ def logout():
     session.pop('username', None)
     return
 '''
-@app.route("/gacha")
+@app.route("/")
 def nasa():
-    with urllib.request.urlopen("https://api.nekosia.cat/api/v1/images/catgirl") as response:
-        html = response.read()
-        data = json.loads(html)
-        cat = key.read()
-    return render_template("gacha.html",text=data['copyright'],img1 = data['image'])
+    request = requests.get("https://api.nekosia.cat/api/v1/images/catgirl/").json()
+    print(request['image'])
+    return render_template("gacha.html",img1 = request['image']['original']['url'])
 
 if __name__ == "__main__":
     app.debug = True
