@@ -1,1 +1,19 @@
-None of the APIs we used require keys to access.
+Evil Insult API:
+- No API key needed
+- Provides insults and the name of the person they are attributed to
+- No limit
+
+Advice Slip API:
+- No API key needed
+- Provides random advice slips
+- No limit
+
+Nekosia API:
+- No API key needed
+- Provides neko pictures
+- Limit of 320 requests within 5 minutes
+
+Trivia API:
+- No API key needed
+- Provides trivia questions and allows selecting by category/difficulty
+- Limit of 100,000 calls per month and 20 requests per IP per 5 seconds
