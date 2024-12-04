@@ -62,7 +62,7 @@ def genTrivia():
     python_ify = json.loads(API.read())[0]
     answers=python_ify["incorrectAnswers"]
     answers.append(python_ify["correctAnswer"])
-    return [python_ify['id'], python_ify['category'], python_ify["difficulty"], python_ify["question"]["text"], answers]
+    return [python_ify['id'], python_ify['category'], python_ify["difficulty"], python_ify["question"]["text"], answers, python_ify["correctAnswer"]]
 
 # specify difficulty
 '''
@@ -77,7 +77,7 @@ def genTriviaDifficulty(difficulty):
         python_ify = json.loads(API.read())[0]
         answers=python_ify["incorrectAnswers"]
         answers.append(python_ify["correctAnswer"])
-        return [python_ify['id'], python_ify['category'], python_ify["difficulty"], python_ify["question"]["text"], answers]
+        return [python_ify['id'], python_ify['category'], python_ify["difficulty"], python_ify["question"]["text"], answers, python_ify["correctAnswer"]]
     else:
         return('''Error: only use "easy" "medium" "hard"
 You inputted: '''+difficulty)
@@ -102,7 +102,7 @@ def genTriviaCategory(cat):
         python_ify = json.loads(API.read())[0]
         answers=python_ify["incorrectAnswers"]
         answers.append(python_ify["correctAnswer"])
-        return [python_ify['id'], python_ify['category'], python_ify["difficulty"], python_ify["question"]["text"], answers]
+        return [python_ify['id'], python_ify['category'], python_ify["difficulty"], python_ify["question"]["text"], answers, python_ify["correctAnswer"]]
     else:
         return('''Error: only use "music" "sport_and_leisure" "film_and_tv" "arts_and_literature" "history" "society_and_culture" "science" "geography" "food_and_drink" "general_knowledge"
 You inputted: '''+cat)
@@ -127,4 +127,17 @@ def getDifficulty(liSt):
 def getTriviaID(liSt):
     return liSt[0]
 
-print(genTriviaDifficulty("musidc"))
+# shuffled list of answer choices
+def getAnswers(liSt):
+    random.shuffle(liSt[4])
+    return liSt[4]
+
+# returns correct answer
+def getCorrectAnswer(liSt):
+    return liSt[5]
+
+# checks if answ is correct
+def isCorrect(liSt, answ):
+    if liSt[5] == answ:
+        return True
+    return False
