@@ -8,6 +8,7 @@ from flask import url_for
 from flask import flash
 import os
 import sqlite3
+import random
 # ---
 import API
 import database

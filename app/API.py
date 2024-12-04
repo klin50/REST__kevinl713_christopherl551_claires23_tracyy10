@@ -3,6 +3,7 @@ import urllib.request
 from urllib.request import Request
 from urllib.request import urlopen
 import json
+import random
 
 # create a list containing an insult and the corresponding ID
 def genInsult():
@@ -54,3 +55,76 @@ def getCat(liSt):
 def getCatID(liSt):
     return liSt[0]
 
+# create a random trivia
+def genTrivia():
+    url = "https://the-trivia-api.com/v2/questions/?limit=1"
+    API = urllib.request.urlopen(url)
+    python_ify = json.loads(API.read())[0]
+    answers=python_ify["incorrectAnswers"]
+    answers.append(python_ify["correctAnswer"])
+    return [python_ify['id'], python_ify['category'], python_ify["difficulty"], python_ify["question"]["text"], answers]
+
+# specify difficulty
+'''
+    easy
+    medium
+    hard
+'''
+def genTriviaDifficulty(difficulty):
+    if difficulty in ["easy", "medium", "hard"]:
+        url = "https://the-trivia-api.com/v2/questions/?limit=1&difficulties="+difficulty
+        API = urllib.request.urlopen(url)
+        python_ify = json.loads(API.read())[0]
+        answers=python_ify["incorrectAnswers"]
+        answers.append(python_ify["correctAnswer"])
+        return [python_ify['id'], python_ify['category'], python_ify["difficulty"], python_ify["question"]["text"], answers]
+    else:
+        return('''Error: only use "easy" "medium" "hard"
+You inputted: '''+difficulty)
+
+# specify category
+'''
+    music
+    sport_and_leisure
+    film_and_tv
+    arts_and_literature
+    history
+    society_and_culture
+    science
+    geography
+    food_and_drink
+    general_knowledge
+'''
+def genTriviaCategory(cat):
+    if cat in ["music", "sport_and_leisure", "film_and_tv", "arts_and_literature", "history", "society_and_culture", "science", "geography", "food_and_drink", "general_knowledge"]:
+        url = "https://the-trivia-api.com/v2/questions/?limit=1&categories="+cat
+        API = urllib.request.urlopen(url)
+        python_ify = json.loads(API.read())[0]
+        answers=python_ify["incorrectAnswers"]
+        answers.append(python_ify["correctAnswer"])
+        return [python_ify['id'], python_ify['category'], python_ify["difficulty"], python_ify["question"]["text"], answers]
+    else:
+        return('''Error: only use "music" "sport_and_leisure" "film_and_tv" "arts_and_literature" "history" "society_and_culture" "science" "geography" "food_and_drink" "general_knowledge"
+You inputted: '''+cat)
+
+# param : the trivia-list
+def getQuestion(liSt): 
+    return liSt[3]
+
+# param : the trivia-list
+def getTriviaID(liSt):
+    return liSt[0]
+
+# param : the trivia-list
+def getCategory(liSt):
+    return liSt[1]
+
+# param : the trivia-list
+def getDifficulty(liSt):
+    return liSt[2]
+
+# param : the trivia-list
+def getTriviaID(liSt):
+    return liSt[0]
+
+print(genTriviaDifficulty("musidc"))
