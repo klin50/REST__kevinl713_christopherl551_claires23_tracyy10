@@ -1,3 +1,16 @@
+christopherL -- 2024-12-03
+Added login/logout starting code
+
 tracyY, kevinL -- 2024-12-03
 
 Updated design doc: explained gacha, added DB tables, changed insults feature, added explanation for penalty system.
+
+claireS -- 2024-12-03
+
+Added README heading
+
+kevinL -- 2024-11-28
+Created html and added CSS for home
+
+kevinL -- 2024-11-30
+Created html and added CSS for Login and Register
