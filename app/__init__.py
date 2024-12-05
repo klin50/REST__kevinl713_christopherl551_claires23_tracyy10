@@ -77,12 +77,23 @@ def register(): #Is called when user enters their username and password into the
         flash("Username already exists")
         return redirect("/register")
 
+@app.route("/selection", methods=['GET','POST'])
 def selectD():
+    difficulty = request.form.get('difficulty')
+    topic = request.form.get('topic')
+    if (API.genTriviaDifficulty('topic')):
+        return redirect("/question")#Needs to be modified for both topic and difficulty combined
     return render_template("selectD.html", x = "weeee")
+
+@app.route("/question", methods=['GET','POST'])
 def question():
     return render_template("question.html", x = "weeee")
+
+@app.route("/gacha", methods=['GET','POST'])
 def gacha():
-    return render_template("gacha.html", x = "weeee")
+    cat = API.genCat()
+    return render_template("gacha.html", img1 = API.getCat(cat))
+
 @app.route("/collection")
 def collection():
     c, restdb = connect()

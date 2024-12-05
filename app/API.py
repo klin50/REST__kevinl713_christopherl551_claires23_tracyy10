@@ -107,6 +107,18 @@ def genTriviaCategory(cat):
         return('''Error: only use "music" "sport_and_leisure" "film_and_tv" "arts_and_literature" "history" "society_and_culture" "science" "geography" "food_and_drink" "general_knowledge"
 You inputted: '''+cat)
 
+# specify both difficulty and category
+def genTriviaBoth(diff, cat):
+    if cat in ["music", "sport_and_leisure", "film_and_tv", "arts_and_literature", "history", "society_and_culture", "science", "geography", "food_and_drink", "general_knowledge"] and diff in ["easy", "medium", "hard"]:
+        url = "https://the-trivia-api.com/v2/questions/?limit=1&categories="+cat+"&difficulties="+diff
+        API = urllib.request.urlopen(url)
+        python_ify = json.loads(API.read())[0]
+        answers=python_ify["incorrectAnswers"]
+        answers.append(python_ify["correctAnswer"])
+        return [python_ify['id'], python_ify['category'], python_ify["difficulty"], python_ify["question"]["text"], answers, python_ify["correctAnswer"]]
+    else:
+        return('''Error: You inputted: '''+diff +", "+cat)
+
 # param : the trivia-list
 def getQuestion(liSt): 
     return liSt[3]
