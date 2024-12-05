@@ -24,7 +24,7 @@ def connect():
     c = db.cursor()
     return c, db
 
-def close():
+def close(db):
     db.commit()
     db.close()
 
@@ -47,7 +47,7 @@ def authenticate():#Is called when the user enters their username & password int
     password = request.form.get('password')
     c, restdb = connect()
     info = c.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone() #Finds user's row based on the entered username
-    restdb.close()
+    close(restdb)
     stored_password = info[1] #Gets user's password from database
     if stored_password and stored_password[0] == password: #If password is correct
         session['username'] = username
@@ -65,12 +65,15 @@ def register(): #Is called when user enters their username and password into the
     password = request.form.get('password')
     c, restdb = connect()
     matching = c.execute("SELECT * FROM users WHERE username = ?", username).fetchall()
+    print(c.execute("SELECT * FROM users").fetchall())
     if (len(matching) == 0): 
         c.execute("INSERT INTO users(username, password, points) VALUES(?, ?, ?)", (username, password, 0))
-        restdb.close()
+        print(c.execute("SELECT * FROM users").fetchall())
+        close(restdb)
         return redirect("/login")
     else:
-        restdb.close()
+        close(restdb)
+        print("Double username")
         flash("Username already exists")
         return redirect("/register")
 
@@ -84,7 +87,7 @@ def gacha():
 def collection():
     c, restdb = connect()
     c.execute("SELECT * FROM cards WHERE userID = ?", session['userID']).fetchall()
-    restdb.close()
+    close(restdb)
     return render_template("collection.html", x = "weeee")
 
 @app.route("/logout")
