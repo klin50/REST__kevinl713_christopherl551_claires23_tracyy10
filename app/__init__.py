@@ -78,8 +78,12 @@ def selectD():
     return render_template("selectD.html", x = "weeee")
 def question():
     return render_template("question.html", x = "weeee")
+
+@app.route("/gacha", methods=['GET','POST'])
 def gacha():
-    return render_template("gacha.html", x = "weeee")
+    cat = API.genCat()
+    return render_template("gacha.html", img1 = API.getCat(cat))
+
 @app.route("/collection")
 def collection():
     c, restdb = connect()
