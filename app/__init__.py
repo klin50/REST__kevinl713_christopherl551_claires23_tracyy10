@@ -19,15 +19,6 @@ app.secret_key = secret
 
 database.build()
 
-def connect():
-    db = sqlite3.connect("rest.db")
-    c = db.cursor()
-    return c, db
-
-def close(db):
-    db.commit()
-    db.close()
-
 @app.route("/")
 def home():
     if 'username' in session: #Checks if logged in
@@ -45,9 +36,7 @@ def disp_loginpage():
 def authenticate():#Is called when the user enters their username & password into the form
     username = request.form.get('username')
     password = request.form.get('password')
-    c, restdb = connect()
-    info = c.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone() #Finds user's row based on the entered username
-    close(restdb)
+    info = database.auth(username)
     stored_password = info[1] #Gets user's password from database
     if stored_password and stored_password[0] == password: #If password is correct
         session['username'] = username
@@ -63,17 +52,9 @@ def disp_register(): #Register Page Rendering
 def register(): #Is called when user enters their username and password into the form
     username = request.form.get('username')
     password = request.form.get('password')
-    c, restdb = connect()
-    matching = c.execute("SELECT * FROM users WHERE username = ?", username).fetchall()
-    print(c.execute("SELECT * FROM users").fetchall())
-    if (len(matching) == 0): 
-        c.execute("INSERT INTO users(username, password, points) VALUES(?, ?, ?)", (username, password, 0))
-        print(c.execute("SELECT * FROM users").fetchall())
-        close(restdb)
+    if (database.createUser(username, password) == 0): 
         return redirect("/login")
     else:
-        close(restdb)
-        print("Double username")
         flash("Username already exists")
         return redirect("/register")
 
