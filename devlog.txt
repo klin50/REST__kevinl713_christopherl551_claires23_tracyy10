@@ -1,3 +1,24 @@
+claireS -- 2024-12-05
+Updated readme with install and launch guide
+
+tracyY -- 2024-12-04
+Finished all functions for APIs in API.py
+
+claireS -- 2024-12-04
+Added login and worked on keys for api
+
+christopherL -- 2024-12-04
+Rendering gacha images for app
+
+kevinL -- 2024-12-04
+Updated css for gacha and collection
+
+tracyY -- 2024-12-03
+Added functions for three APIs.
+
+claireS -- 2024-12-03
+Updated authenticate method, register method, and users table
+
 christopherL -- 2024-12-03
 Added login/logout starting code
 
@@ -7,17 +28,8 @@ Updated design doc: explained gacha, added DB tables, changed insults feature, a
 claireS -- 2024-12-02
 Added README heading, created DB tables
 
-kevinL -- 2024-11-28
-Created html and added CSS for home
-
 kevinL -- 2024-11-30
 Created html and added CSS for Login and Register
 
-claireS -- 2024-12-03
-Updated authenticate method, register method, and users table
-
-tracyY -- 2024-12-03
-Added functions for three APIs.
-
-tracyY -- 2024-12-04
-Finished all functions for APIs in API.py
+kevinL -- 2024-11-28
+Created html and added CSS for home
