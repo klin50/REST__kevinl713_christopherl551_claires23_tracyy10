@@ -10,6 +10,9 @@ Added login and worked on keys for api
 christopherL -- 2024-12-04
 Rendering gacha images for app
 
+kevinL -- 2024-12-04
+Updated css for gacha and collection
+
 tracyY -- 2024-12-03
 Added functions for three APIs.
 
