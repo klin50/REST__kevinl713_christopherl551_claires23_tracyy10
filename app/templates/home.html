@@ -9,7 +9,7 @@
   <body class="bg-cover bg-fixed bg-gradient-to-r from-blue-400 to-purple-400">
     <nav class="p-6 text-indigo-600 p-4 ml-24">
       <div class="container mx-auto flex justify-between items-center">
-        <a href=""><img src="bed.png" alt="bed" width="150" height="150"></a>
+        <a href="/"><img src={{ url_for('static', filename='bed.png') }} alt="bed" width="150" height="150"></a>
         <ul class="flex space-x-6 mr-24">
           <li><form action="/login">
           <input type="submit" class="hover:underline transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-lg p-3 text-white font-semibold text-base cursor-pointer" value="Sign In"></form></li>
@@ -30,8 +30,7 @@
       </div>
 
       <div class="w-full md:w-1/2 flex justify-center md:justify-end p-12 overflow-hidden px-32">
-        <img class="transition transform hover:scale-110 hover:rotate-3 hover:translate-y-2 duration-300 rounded-lg border-4"
-          src="trivia.png" width="400" height="300" alt="trivia">
+        <img src={{ url_for('static', filename='trivia.png') }} class="transition transform hover:scale-110 hover:rotate-3 hover:translate-y-2 duration-300 rounded-lg border-4" width="400" height="300" alt="trivia">
       </div>
     </div>
     <section class="py-16">
