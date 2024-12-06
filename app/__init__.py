@@ -41,6 +41,9 @@ def authenticate():#Is called when the user enters their username & password int
     if stored_password and stored_password[0] == password: #If password is correct
         session['username'] = username
         session['userID'] = info[3] #Based on userID in database
+#         print(info)
+#         print(info[3])
+#         print(session['userID'])
         return redirect("/")
     flash("Invalid username or password")
     return redirect("/login")
@@ -77,6 +80,7 @@ def gacha():
     slip = API.genAdvice()
     advice = API.getAdvice(slip)
     #database.checkUsed()
+    print(session['userID'])
     database.addCard(cat, advice, session['userID'])
     return render_template("gacha.html", img1 = API.getCat(cat))
 
