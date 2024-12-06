@@ -5,7 +5,7 @@ def build():
     c = database.cursor()
 
     c.execute("CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, points INTEGER, userID INTEGER PRIMARY KEY AUTOINCREMENT)")
-    c.execute("CREATE TABLE IF NOT EXISTS cards(imgLink TEXT, advice BOOLEAN, insult BOOLEAN, quote TEXT, userID INTEGER, FOREIGN KEY (userID) REFERENCES users(userID))")
+    c.execute("CREATE TABLE IF NOT EXISTS cards(imgLink TEXT, advice TEXT, userID INTEGER, FOREIGN KEY (userID) REFERENCES users(userID))")
     c.execute("CREATE TABLE IF NOT EXISTS used(advice BOOLEAN, insult BOOLEAN, image BOOLEAN, question BOOLEAN, propertyID TEXT)")
 
     database.commit()
@@ -28,7 +28,7 @@ def auth(username):
 
 def createUser(username, password):
     c,db = connect()
-    matching = c.execute("SELECT * FROM users WHERE username = ?", username[0]).fetchall()
+    matching = c.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchall()
     if (len(matching) == 0): 
         c.execute("INSERT INTO users(username, password, points) VALUES(?, ?, ?)", (username, password, 0))
         close(db)
@@ -36,12 +36,20 @@ def createUser(username, password):
     close(db)
     return 1
 
+def addCard(img, advice, user):
+    c,db = connect()
+    c.execute("INSERT INTO cards VALUES (?, ?, ?)", (img[1], advice, user))
+    close(db)
 
-print(auth("cookie"))
+def showCards(ID):
+    c,db = connect()
+    collection = c.execute("SELECT imgLink, advice FROM cards WHERE userID = ?", (ID,)).fetchall()
+    close(db)
+    return collection
 
-
-
-
-
+def checkUsed():
+    c,db = connect()
+    
+    close(db)
 
 

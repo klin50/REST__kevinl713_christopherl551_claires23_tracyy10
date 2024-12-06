@@ -32,7 +32,7 @@ def home():
 def disp_loginpage():
     return render_template('login.html') #Login Page Rendering
 
-@app.route("/auth", methods=['POST'])
+@app.route("/auth", methods=['GET', 'POST'])
 def authenticate():#Is called when the user enters their username & password into the form
     username = request.form.get('username')
     password = request.form.get('password')
@@ -42,13 +42,14 @@ def authenticate():#Is called when the user enters their username & password int
         session['username'] = username
         session['userID'] = info[3] #Based on userID in database
         return redirect("/")
-    return render_template('login.html', error="Invalid username or password")
+    flash("Invalid username or password")
+    return redirect("/login")
 
 @app.route("/createAccount")
 def disp_register(): #Register Page Rendering
     return render_template('register.html')
 
-@app.route("/register", methods=['POST'])
+@app.route("/register", methods=['GET', 'POST'])
 def register(): #Is called when user enters their username and password into the form
     username = request.form.get('username')
     password = request.form.get('password')
@@ -56,7 +57,7 @@ def register(): #Is called when user enters their username and password into the
         return redirect("/login")
     else:
         flash("Username already exists")
-        return redirect("/register")
+        return redirect("/createAccount")
 
 @app.route("/selection", methods=['GET','POST'])
 def selectD():
@@ -73,14 +74,16 @@ def question():
 @app.route("/gacha", methods=['GET','POST'])
 def gacha():
     cat = API.genCat()
+    slip = API.genAdvice()
+    advice = API.getAdvice(slip)
+    #database.checkUsed()
+    database.addCard(cat, advice, session['userID'])
     return render_template("gacha.html", img1 = API.getCat(cat))
 
 @app.route("/collection")
 def collection():
-    c, restdb = connect()
-    c.execute("SELECT * FROM cards WHERE userID = ?", session['userID']).fetchall()
-    close(restdb)
-    return render_template("collection.html", x = "weeee")
+    cards = database.showCards(session['userID'])
+    return render_template("collection.html", collection = cards)
 
 @app.route("/logout")
 def logout():
