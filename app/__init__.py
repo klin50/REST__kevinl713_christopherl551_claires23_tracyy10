@@ -37,15 +37,21 @@ def authenticate():#Is called when the user enters their username & password int
     username = request.form.get('username')
     password = request.form.get('password')
     info = database.auth(username)
-    stored_password = info[1] #Gets user's password from database
-    if stored_password and stored_password[0] == password: #If password is correct
-        session['username'] = username
-        session['userID'] = info[3] #Based on userID in database
+    if info != None:
+        stored_password = info[1] #Gets user's password from database
+        if stored_password == password: #If password is correct
+            session['username'] = username
+            session['userID'] = info[3] #Based on userID in database
 #         print(info)
 #         print(info[3])
 #         print(session['userID'])
-        return redirect("/")
-    flash("Invalid username or password")
+            #print("Both")
+            return redirect("/")
+        #print("PW")
+        flash("Invalid password")
+        return redirect("/login")
+    #print("User")
+    flash("Invalid username")
     return redirect("/login")
 
 @app.route("/createAccount")
