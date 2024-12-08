@@ -13,7 +13,7 @@ def genInsult():
     return [python_ify['number'], python_ify['insult']]
 
 # param : the insult-list
-def getInsult(liSt): 
+def getInsult(liSt):
     return liSt[1]
 
 # param : the insult-list
@@ -28,7 +28,7 @@ def genAdvice():
     return [python_ify['id'], python_ify['advice']]
 
 # param : the advice-list
-def getAdvice(liSt): 
+def getAdvice(liSt):
     return liSt[1]
 
 # param : the advice-list
@@ -48,7 +48,7 @@ def genCat():
     return [python_ify['id'], python_ify['image']['original']['url']]
 
 # param : the cat-list
-def getCat(liSt): 
+def getCat(liSt):
     return liSt[1]
 
 # param : the cat-list
@@ -62,6 +62,7 @@ def genTrivia():
     python_ify = json.loads(API.read())[0]
     answers=python_ify["incorrectAnswers"]
     answers.append(python_ify["correctAnswer"])
+    random.shuffle(answers)
     return [python_ify['id'], python_ify['category'], python_ify["difficulty"], python_ify["question"]["text"], answers, python_ify["correctAnswer"]]
 
 # specify difficulty
@@ -120,7 +121,7 @@ def genTriviaBoth(diff, cat):
         return('''Error: You inputted: '''+diff +", "+cat)
 
 # param : the trivia-list
-def getQuestion(liSt): 
+def getQuestion(liSt):
     return liSt[3]
 
 # param : the trivia-list

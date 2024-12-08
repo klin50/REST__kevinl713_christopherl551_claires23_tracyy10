@@ -1,15 +1,44 @@
 <!DOCTYPE html>
 
   <head>
-    <title> REST TRIVIA [QUESTION] </title>
+    <title> REST TRIVIA [LOGIN] </title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
-  <body>
-    {{ x }}
+  <body class="bg-cover bg-fixed bg-gradient-to-r from-blue-400 to-purple-400 overflow-hidden">
+    <nav class="p-6 text-indigo-600 border-4">
+      <div class="container mx-auto flex justify-between items-center border-4">
+        <a href="/"><img src={{ url_for('static', filename='bed.png') }} alt="bed" width="150" height="150"></a>
+        <ul class="flex space-x-6 mr-24">
+          <li><form action="/logout">
+          <input type="submit" class="hover:underline transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-lg p-3 text-white font-semibold text-base cursor-pointer" value="Logout"></form></li>
+      </div>
+    </nav>
+    <div class="flex flex-col h-screen justify-center items-center">
+      <div class="flex flex-col items-center justify-center w-5/6 h-5/6 bg-white bg-opacity-90 shadow-lg rounded-lg -translate-y-20 border-4">
+        <h1 class="text-2xl font-semibold mb-6 ml-24">TRIVIA QUESTION</h1>
+        <h3 class="text-2xl font-semibold mb-6 ml-24">Genre: {{trivia[1].replace('_',' ').upper()}} Difficulty: {{trivia[2].upper()}}</h3>
+        <h2 class="text-2xl font-semibold translate-y-10 ml-24">{{trivia[3]}}</h2>
+        <div class="flex flex-col justify-center mt-6 -translate-y-10 size-3/5 ml-24">
+          <form action="/question" method="post">
+            {% for answer in trivia[4] %}
+            <div class="hover:underline transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 duration-300 rounded-lg text-white font-semibold text-base border-4">
+              <label class="cursor-pointer flex items-center w-full p-3">
+                <input type="radio" name="answer" value={{answer}}>
+                <span class="ml-3 text-gray-700">{{answer}}</span>
+              </label>
+            </div>
+            {% endfor %}
+            <input type="submit" class="cursor-pointer bg-violet-500 text-white py-2 px-4 rounded shadow-lg hover:bg-violet-600 transform transition hover:scale-105 duration-300 ease-in-out w-full" value="Submit">
+          </form>
+        </div>
+        <div class="w-3/4 justify-center bg-gray-200 rounded-full h-4">
+          <div class="bg-blue-600 h-4 rounded-full" style="width: 50%"></div>
+        </div>
+      </div>
+    </div>
   </body>
 
 </html>
-
