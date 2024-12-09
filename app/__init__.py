@@ -72,9 +72,34 @@ def register(): #Is called when user enters their username and password into the
 def selectD():
     difficulty = request.form.get('difficulty')
     topic = request.form.get('topic')
-    if (API.genTriviaDifficulty('topic')):
-        return redirect("/question")#Needs to be modified for both topic and difficulty combined
     return render_template("selectD.html", x = "weeee")
+
+@app.route("/checkcorrect",methods=['GET','POST'])
+    question = request.form.get('question')
+    answer = request.form.get('answer')
+    info = database.auth(answer)
+    if info != None:
+        stored_password = info[1] #Gets user's password from database
+        if stored_password == password: #If password is correct
+            session['username'] = username
+            session['userID'] = info[3] #Based on userID in database
+            #print(info)
+            #print(info[3])
+            #print(session['userID'])
+            #print("Both")
+            return redirect("/")
+        return redirect("/incorrect")
+    flash("Error")
+    return redirect("/question")
+
+@app.route("/correct",methods=['GET','POST'])
+def correctA():
+    #addPoints(session['username']) #FUNCTION NEEDS WRITING
+    return render_template("correct.html") # STILL NEEDS TO BE WRITTEN
+
+@app.route("/incorrect",methods=['GET','POST'])
+def incorrectA():
+    return render_template("incorrect.html") #STILL NEEDS TO BE WRITTEN
 
 @app.route("/question", methods=['GET','POST'])
 def question():
