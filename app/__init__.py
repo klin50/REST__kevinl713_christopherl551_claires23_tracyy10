@@ -22,11 +22,8 @@ database.build()
 @app.route("/")
 def home():
     if 'username' in session: #Checks if logged in
-        logged = True
-        uname = session['username']  #Displays username
-        return render_template("home.html",logged=logged,uname=uname)
-    logged = False
-    return render_template("home.html",logged=logged)
+        return redirect("/welcome")
+    return render_template("home.html")
 
 @app.route("/login")
 def disp_loginpage():
@@ -41,12 +38,12 @@ def authenticate():#Is called when the user enters their username & password int
         stored_password = info[1] #Gets user's password from database
         if stored_password == password: #If password is correct
             session['username'] = username
-            session['userID'] = info[3] #Based on userID in database
+            session['userID'] = info[4] #Based on userID in database
             #print(info)
             #print(info[3])
             #print(session['userID'])
             #print("Both")
-            return redirect("/")
+            return redirect("/welcome")
         #print("PW")
         flash("Invalid password")
         return redirect("/login")
@@ -88,7 +85,7 @@ def gacha():
     slip = API.genAdvice()
     advice = API.getAdvice(slip)
     #database.checkUsed()
-    print(session['userID'])
+    #print(session['userID'])
     database.addCard(cat, advice, session['userID'])
     return render_template("gacha.html", img1 = API.getCat(cat))
 
@@ -99,6 +96,7 @@ def collection():
 
 @app.route("/welcome")
 def welcome():
+    #points, packs, cards
     return render_template("welcome.html")
 
 @app.route("/logout")
