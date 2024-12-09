@@ -67,11 +67,16 @@ def register(): #Is called when user enters their username and password into the
 
 @app.route("/selection", methods=['GET','POST'])
 def selectD():
-    difficulty = request.form.get('difficulty')
-    topic = request.form.get('topic')
-    if (API.genTriviaDifficulty('topic')):
-        return redirect("/question")#Needs to be modified for both topic and difficulty combined
-    return render_template("selectD.html", x = "weeee")
+#     difficulty = request.form.get('difficulty')
+#     topic = request.form.get('topic')
+#     if (API.genTriviaDifficulty('topic')):
+#         return redirect("/question")#Needs to be modified for both topic and difficulty combined
+#     return render_template("selectD.html", x = "weeee")
+    if request.method == "GET":
+        return render_template("selectD.html")
+    else:
+        
+        return render_template("questions.html")
 
 @app.route("/question", methods=['GET','POST'])
 def question():
