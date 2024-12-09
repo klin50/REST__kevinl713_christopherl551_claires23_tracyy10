@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+  <head>
+    <title> REST TRIVIA [LOGIN] </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="bg-cover bg-fixed bg-gradient-to-r from-blue-400 to-purple-400 overflow-hidden">
+    <nav class="p-6 text-indigo-600 border-4">
+      <div class="container mx-auto flex justify-between items-center border-4">
+        <a href="/"><img src={{ url_for('static', filename='bed.png') }} alt="bed" width="150" height="150"></a>
+        <ul class="flex space-x-6 mr-24">
+          <li><form action="/logout">
+          <input type="submit" class="hover:underline transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-lg p-3 text-white font-semibold text-base cursor-pointer" value="Logout"></form></li>
+      </div>
+    </nav>
+    <div class="flex flex-col h-screen justify-center items-center">
+      <div class="flex flex-col justify-center w-5/6 h-5/6 bg-opacity-90 bg-white shadow-lg rounded-lg -translate-y-20 border-4">
+        <h1 class="text-2xl font-semibold mb-6 ml-24">WELCOME {{user}}</h1>
+        <div class="flex flex-col justify-center size-3/5 ml-24">
+          <div class="mb-6">
+            LEADERBOARD
+            POINTS EARNED
+            PACKS OPENED
+            CARDS EARNED
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+</html>

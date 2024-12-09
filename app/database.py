@@ -39,6 +39,7 @@ def createUser(username, password):
 def addCard(img, advice, user):
     c,db = connect()
     c.execute("INSERT INTO cards VALUES (?, ?, ?)", (img[1], advice, user))
+    print(user)
     close(db)
 
 def showCards(ID):
@@ -47,9 +48,9 @@ def showCards(ID):
     close(db)
     return collection
 
-def checkUsed():
-    c,db = connect()
-    
-    close(db)
+# def checkUsed():
+#     c,db = connect()
+#     
+#     close(db)
 
 

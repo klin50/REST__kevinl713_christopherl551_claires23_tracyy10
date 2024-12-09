@@ -37,12 +37,21 @@ def authenticate():#Is called when the user enters their username & password int
     username = request.form.get('username')
     password = request.form.get('password')
     info = database.auth(username)
-    stored_password = info[1] #Gets user's password from database
-    if stored_password and stored_password[0] == password: #If password is correct
-        session['username'] = username
-        session['userID'] = info[3] #Based on userID in database
-        return redirect("/")
-    flash("Invalid username or password")
+    if info != None:
+        stored_password = info[1] #Gets user's password from database
+        if stored_password == password: #If password is correct
+            session['username'] = username
+            session['userID'] = info[3] #Based on userID in database
+            #print(info)
+            #print(info[3])
+            #print(session['userID'])
+            #print("Both")
+            return redirect("/")
+        #print("PW")
+        flash("Invalid password")
+        return redirect("/login")
+    #print("User")
+    flash("Invalid username")
     return redirect("/login")
 
 @app.route("/createAccount")
@@ -53,7 +62,7 @@ def disp_register(): #Register Page Rendering
 def register(): #Is called when user enters their username and password into the form
     username = request.form.get('username')
     password = request.form.get('password')
-    if (database.createUser(username, password) == 0): 
+    if (database.createUser(username, password) == 0):
         return redirect("/login")
     else:
         flash("Username already exists")
@@ -74,7 +83,9 @@ def selectD():
 
 @app.route("/question", methods=['GET','POST'])
 def question():
-    return render_template("question.html", x = "weeee")
+    set = []
+    trivia = API.genTrivia()
+    return render_template("question.html", trivia=trivia)
 
 @app.route("/gacha", methods=['GET','POST'])
 def gacha():
@@ -82,6 +93,7 @@ def gacha():
     slip = API.genAdvice()
     advice = API.getAdvice(slip)
     #database.checkUsed()
+    print(session['userID'])
     database.addCard(cat, advice, session['userID'])
     return render_template("gacha.html", img1 = API.getCat(cat))
 
@@ -90,10 +102,15 @@ def collection():
     cards = database.showCards(session['userID'])
     return render_template("collection.html", collection = cards)
 
+@app.route("/welcome")
+def welcome():
+    return render_template("welcome.html")
+
 @app.route("/logout")
 def logout():
     session.pop('username', None)
-    return render_template('logout.html')#Similar to login page, just removes session
+    #flash()#Flash a logout message here
+    return redirect('/')#Similar to login page, just removes session
 
 if __name__ == "__main__":
     app.debug = True
