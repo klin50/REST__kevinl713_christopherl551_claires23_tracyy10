@@ -15,12 +15,39 @@
     </nav>
     <div class="flex flex-col h-screen justify-center items-center">
       <div class="flex flex-col justify-center w-1/3 h-1/2 items-center bg-white bg-opacity-50 shadow-lg rounded-lg -translate-y-20">
-        <h1 class="text-2xl font-semibold mb-6">Select a difficulty</h1>
-        <div class="flex justify-center size-3/5">
-          <button type="button" class="border-4">EASY</button>
-          <button type="button" class="border-4">MEDIUM</button>
-          <button type="button" class="border-4">HARD</button>
+        <h1 class="text-2xl font-semibold mb-6">Random</h1>
+        <h2 class="text-1xl mb-6">Points: #</h2>
+        <div class="flex justify-center size-1/5">
+            <form action="/question" method="POST"> 
+                <button type="submit" class="border-4">RANDOM</button>
+            </form>
         </div>
+        <h1 class="text-2xl font-semibold mb-6">Select a difficulty</h1>
+        <h2 class="text-1xl mb-6">Points: #</h2>
+        <div class="flex justify-center size-1/5">
+            <form action="/selection" method="POST">
+              <button type="submit" class="border-4">EASY</button>
+              <button type="submit" class="border-4">MEDIUM</button>
+              <button type="submit" class="border-4">HARD</button>
+            </form>
+        </div>
+        <h1 class="text-2xl font-semibold mb-6">Select a Category</h1>
+        <h2 class="text-1xl mb-6">Points: #</h2>
+        <div class="flex justify-center size-1/5">
+            <form action="/selection" method="POST">
+              <button type="submit" class="border-4">music</button>
+              <button type="submit" class="border-4">sport_and_leisure</button>
+              <button type="submit" class="border-4">film_and_tv</button>
+              <button type="submit" class="border-4">arts_and_literature</button>
+              <button type="submit" class="border-4">history</button>
+              <button type="submit" class="border-4">society_and_culture</button>
+              <button type="submit" class="border-4">science</button>
+              <button type="submit" class="border-4">geography</button>
+              <button type="submit" class="border-4">food_and_drink</button>
+              <button type="submit" class="border-4">general_knowledge</button>
+            </form>
+        </div>
+
       </div>
     </div>
   </body>
