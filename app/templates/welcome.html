@@ -20,11 +20,26 @@
       <div class="flex flex-col justify-center w-5/6 h-5/6 bg-opacity-90 bg-white shadow-lg rounded-lg -translate-y-20 border-4">
         <h1 class="text-2xl font-semibold mb-6 ml-24">WELCOME {{user}}</h1>
         <div class="flex flex-col justify-center size-3/5 ml-24">
-          <div class="mb-6">
-            LEADERBOARD
-            POINTS EARNED
-            PACKS OPENED
-            CARDS EARNED
+          <section class="py-16">
+            <div class="container mx-auto grid grid-cols-1 gap-8 shadow-lg">
+              <div class="p-6 bg-white bg-opacity-50 shadow-lg rounded-lg">
+                <h2 class="text-2xl font-bold mb-4">YOU HAVE EARNED {{points}} POINTS</h2>
+                <p class="text-gray-600"><a href="/question">EARN MORE</a></p>
+              </div>
+              <div class="container mx-auto grid grid-cols-1 gap-8 shadow-lg">
+                <div class="p-6 bg-white bg-opacity-50 shadow-lg rounded-lg">
+                  <h2 class="text-2xl font-bold mb-4">YOU HAVE OPENED {{packs}} PACKS</h2>
+                  <p class="text-gray-600"><a href="/gacha">GACHA</a></p>
+                </div>
+              </div>
+              <div class="container mx-auto grid grid-cols-1 gap-8 shadow-lg">
+                <div class="p-6 bg-white bg-opacity-50 shadow-lg rounded-lg">
+                  <h2 class="text-2xl font-bold mb-4">YOU HAVE EARNED {{cards}} CARDS</h2>
+                  <p class="text-gray-600"><a href="/collection">COLLECTION</a></p>
+                </div>
+              </div>
+            </div>
+          </section>
           </div>
         </div>
       </div>
