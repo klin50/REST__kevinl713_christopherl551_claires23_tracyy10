@@ -35,7 +35,7 @@ def getAdvice(liSt):
 def getAdviceID(liSt):
     return liSt[0]
 
-# create a list containing a cat and the corresponding ID
+# create a list containing a RANDOM cat and the corresponding ID
 def genCat():
     # url = "https://api.nekosia.cat/api/v1/images/catgirl"
     # API = urllib.request.urlopen(url)
@@ -46,6 +46,86 @@ def genCat():
     python_ify = json.loads(API)
     #pretty = json.dumps(python_ify, indent=2)   # ---> converts to json to pretty print
     return [python_ify['id'], python_ify['image']['original']['url']]
+
+# generate random 10
+def genCat10():
+    url = "https://api.nekosia.cat/api/v1/images/:category?additionalTags=girl&count=10"
+    req = Request(url, headers={'User-Agent': 'Modzilla/5.0'})
+    API = urlopen(req).read()
+    python_ify = json.loads(API)
+    pretty = json.dumps(python_ify, indent=2)
+    getTen = []
+    i = 0
+    while i < 10:
+        getTen.append([python_ify['images'][i]['id'], python_ify['images'][i]['image']['original']['url']])
+        i+=1
+    return getTen
+
+# swimwear
+def genCatSwimwear():
+    url = "https://api.nekosia.cat/api/v1/images/:category?additionalTags=swimwear"
+    req = Request(url, headers={'User-Agent': 'Modzilla/5.0'}) 
+    API = urlopen(req).read()
+    python_ify = json.loads(API)
+    return [python_ify['id'], python_ify['image']['original']['url']]
+
+# generate swimwear 10
+def genCatSwimwear10():
+    url = "https://api.nekosia.cat/api/v1/images/:category?additionalTags=swimwear&count=10"
+    req = Request(url, headers={'User-Agent': 'Modzilla/5.0'})
+    API = urlopen(req).read()
+    python_ify = json.loads(API)
+    pretty = json.dumps(python_ify, indent=2)
+    getTen = []
+    i = 0
+    while i < 10:
+        getTen.append([python_ify['images'][i]['id'], python_ify['images'][i]['image']['original']['url']])
+        i+=1
+    return getTen
+
+# maid
+def genCatMaid():
+    url = "https://api.nekosia.cat/api/v1/images/:category?additionalTags=maid"
+    req = Request(url, headers={'User-Agent': 'Modzilla/5.0'}) 
+    API = urlopen(req).read()
+    python_ify = json.loads(API)
+    return [python_ify['id'], python_ify['image']['original']['url']]
+
+# generate maid 10
+def genCatMaid10():
+    url = "https://api.nekosia.cat/api/v1/images/:category?additionalTags=maid&count=10"
+    req = Request(url, headers={'User-Agent': 'Modzilla/5.0'})
+    API = urlopen(req).read()
+    python_ify = json.loads(API)
+    pretty = json.dumps(python_ify, indent=2)
+    getTen = []
+    i = 0
+    while i < 10:
+        getTen.append([python_ify['images'][i]['id'], python_ify['images'][i]['image']['original']['url']])
+        i+=1
+    return getTen
+
+# vtuber
+def genVtuber():
+    url = "https://api.nekosia.cat/api/v1/images/:category?additionalTags=vtuber"
+    req = Request(url, headers={'User-Agent': 'Modzilla/5.0'}) 
+    API = urlopen(req).read()
+    python_ify = json.loads(API)
+    return [python_ify['id'], python_ify['image']['original']['url']]
+
+# generate vtuber 10
+def genVtuber10():
+    url = "https://api.nekosia.cat/api/v1/images/:category?additionalTags=vtuber&count=10"
+    req = Request(url, headers={'User-Agent': 'Modzilla/5.0'})
+    API = urlopen(req).read()
+    python_ify = json.loads(API)
+    pretty = json.dumps(python_ify, indent=2)
+    getTen = []
+    i = 0
+    while i < 10:
+        getTen.append([python_ify['images'][i]['id'], python_ify['images'][i]['image']['original']['url']])
+        i+=1
+    return getTen
 
 # param : the cat-list
 def getCat(liSt):
