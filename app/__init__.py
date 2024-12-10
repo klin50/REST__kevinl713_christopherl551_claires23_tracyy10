@@ -22,11 +22,8 @@ database.build()
 @app.route("/")
 def home():
     if 'username' in session: #Checks if logged in
-        logged = True
-        uname = session['username']  #Displays username
-        return render_template("home.html",logged=logged,uname=uname)
-    logged = False
-    return render_template("home.html",logged=logged)
+        return redirect("/welcome")
+    return render_template("home.html")
 
 @app.route("/login")
 def disp_loginpage():
@@ -41,12 +38,12 @@ def authenticate():#Is called when the user enters their username & password int
         stored_password = info[1] #Gets user's password from database
         if stored_password == password: #If password is correct
             session['username'] = username
-            session['userID'] = info[3] #Based on userID in database
+            session['userID'] = info[4] #Based on userID in database
             #print(info)
             #print(info[3])
             #print(session['userID'])
             #print("Both")
-            return redirect("/")
+            return redirect("/welcome")
         #print("PW")
         flash("Invalid password")
         return redirect("/login")
@@ -101,6 +98,36 @@ def selectD():
             else:
                 iTC.append("no")
         return render_template("question.html", isThisCorrect = iTC, A = answers, bgColor = bg, D = difficulty, C = category, Q = question)
+    else:
+
+        return render_template("questions.html")
+
+@app.route("/checkcorrect",methods=['GET','POST'])
+    question = request.form.get('question')
+    answer = request.form.get('answer')
+    info = database.auth(answer)
+    if info != None:
+        stored_password = info[1] #Gets user's password from database
+        if stored_password == password: #If password is correct
+            session['username'] = username
+            session['userID'] = info[3] #Based on userID in database
+            #print(info)
+            #print(info[3])
+            #print(session['userID'])
+            #print("Both")
+            return redirect("/")
+        return redirect("/incorrect")
+    flash("Error")
+    return redirect("/question")
+
+@app.route("/correct",methods=['GET','POST'])
+def correctA():
+    #addPoints(session['username']) #FUNCTION NEEDS WRITING
+    return render_template("correct.html") # STILL NEEDS TO BE WRITTEN
+
+@app.route("/incorrect",methods=['GET','POST'])
+def incorrectA():
+    return render_template("incorrect.html") #STILL NEEDS TO BE WRITTEN
 
 @app.route("/question", methods=['GET','POST'])
 def question():
@@ -127,6 +154,7 @@ def collection():
 
 @app.route("/welcome")
 def welcome():
+    #points, packs, cards
     return render_template("welcome.html")
 
 @app.route("/logout")

@@ -1,5 +1,14 @@
+christopherL -- 2024-12-09
+Worked on question redirection, created correct and incorrect answer pages
+
+claireS -- 2024-12-09
+Worked on addPoints and selectPFP methods for database
+
 kevinL -- 2024-12-07
 Updated question and added welcome.html
+
+claireS -- 2024-12-06
+Debugged login, updated cards table methods
 
 claireS -- 2024-12-05
 Updated readme with install and launch guide
