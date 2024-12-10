@@ -15,11 +15,13 @@ time spent: 0.75
       Cat Image
     </title>
     <h1>
-      Here's your kitten:
+      Here are your cards:
     </h1>
   </head>
   <body>
-    <img src = {{img1}} alt="CatImage" width="150px" height="150px">
-  
+    {% for card in cardList %}
+      <img src = {{card[0]}} alt="CatImage" width="150px" height="150px">
+      <p> {{card[1]}} </p>
+    {% endfor %}
   </body>
 </html>

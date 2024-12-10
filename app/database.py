@@ -38,20 +38,17 @@ def createUser(username, password):
 
 def incrementPack(ID):
     c,db = connect()
-    print(c.execute("SELECT packs FROM users WHERE userID = ?", (ID,)).fetchall())
-    numPacks = int(c.execute("SELECT packs FROM users WHERE userID = ?", (ID,)).fetchall()) + 1
+    numPacks = int(c.execute("SELECT packs FROM users WHERE userID = ?", (ID,)).fetchall()[0][0]) + 1
     c.execute("UPDATE users SET packs=? WHERE userID = ?", (numPacks, ID))
     test = c.execute("SELECT packs FROM users WHERE userID = ?", (ID,)).fetchall()
-    print("PACKS: " + test)
     close(db)
 
 def addCard(img, advice, ID):
     c,db = connect()
-    c.execute("INSERT INTO cards VALUES (?, ?, ?)", (img[1], advice, ID))
-    numCards = c.execute("SELECT cards FROM users WHERE userID = ?", (ID,)).fetchall()
-    c.execute("UPDATE users SET cards=? WHERE userID = ?", (numCards+1, ID))
+    c.execute("INSERT INTO cards VALUES (?, ?, ?)", (img, advice, ID))
+    numCards = int(c.execute("SELECT cards FROM users WHERE userID = ?", (ID,)).fetchall()[0][0]) + 1
+    c.execute("UPDATE users SET cards=? WHERE userID = ?", (numCards, ID))
     test = c.execute("SELECT cards FROM users WHERE userID = ?", (ID,)).fetchall()
-    print("CARDS: " + test)
     close(db)
 
 def showCards(ID):
@@ -60,12 +57,28 @@ def showCards(ID):
     close(db)
     return collection
 
+def getPoints(ID):
+    c,db = connect()
+    points = int(c.execute("SELECT points FROM users WHERE userID = ?", (ID,)).fetchall()[0][0])
+    close(db)
+    return points
+
 def addPoints(ID):
     c,db = connect()
-    score = c.execute("SELECT points FROM users WHERE userID = ?", (ID,)).fetchall()
-    c.execute("UPDATE users SET points=? WHERE userID = ?", (score+1, ID))
-    test = c.execute("SELECT points FROM users WHERE userID = ?", (ID,)).fetchall()
-    print("points: " + test)
+    score = int(c.execute("SELECT points FROM users WHERE userID = ?", (ID,)).fetchall()[0][0]) + 1
+    c.execute("UPDATE users SET points=? WHERE userID = ?", (score, ID))
+#     test = c.execute("SELECT points FROM users WHERE userID = ?", (ID,)).fetchall()
+#     print("points: ")
+#     print(test)
+    close(db)
+    
+def gacha(ID):
+    c,db = connect()
+    points = int(c.execute("SELECT points FROM users WHERE userID = ?", (ID,)).fetchall()[0][0]) - 10
+    c.execute("UPDATE users SET points=? WHERE userID = ?", (points, ID))
+#     test = c.execute("SELECT points FROM users WHERE userID = ?", (ID,)).fetchall()
+#     print("points: ")
+#     print(test)
     close(db)
     
 def welcomeDisp(ID):

@@ -63,6 +63,7 @@ def register(): #Is called when user enters their username and password into the
     if (database.createUser(username, password) == 0):
         return redirect("/login")
     else:
+        print("repeat user")
         flash("Username already exists")
         return redirect("/createAccount")
 
@@ -112,6 +113,7 @@ def retAnswer():
         ID = "ugh"
         if result == "correct":
             bg = "emerald-200"
+            database.addPoints(session['userID'])
         else:
             bg = "red-400"
             insult = API.genInsult()
@@ -123,15 +125,22 @@ def retAnswer():
 
 @app.route("/gacha", methods=['GET','POST'])
 def gacha():
-    cat = API.genCat()
-    slip = API.genAdvice()
-    advice = API.getAdvice(slip)
-    #database.checkUsed()
+    cards = []
+    if database.getPoints(session['userID']) < 10:
+        #print("not enough points")
+        flash("Not enough points! Try answering more questions until you have 10 points.")
+        return redirect("/selection")
+    database.gacha(session['userID'])
     database.incrementPack(session['userID'])
-    for i in range(3):
-        database.addCard(cat, advice, session['userID'])
+    for i in range(5):
+        cat = API.genCat()
+        catImg = API.getCat(cat)
+        slip = API.genAdvice()
+        advice = API.getAdvice(slip)
+        database.addCard(catImg, advice, session['userID'])
+        cards.append([catImg, advice])
         
-    return render_template("gacha.html", img1 = API.getCat(cat), x = request.form.get("isThisCorrect"))
+    return render_template("gacha.html", cardList = cards, x = request.form.get("isThisCorrect"))
 
 @app.route("/collection")
 def collection():
