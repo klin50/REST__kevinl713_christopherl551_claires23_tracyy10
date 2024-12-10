@@ -136,10 +136,6 @@ def getCategory(liSt):
 def getDifficulty(liSt):
     return liSt[2]
 
-# param : the trivia-list
-def getTriviaID(liSt):
-    return liSt[0]
-
 # shuffled list of answer choices
 def getAnswers(liSt):
     random.shuffle(liSt[4])
