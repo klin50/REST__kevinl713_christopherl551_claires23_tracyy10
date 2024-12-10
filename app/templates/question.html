@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
   <head>
-    <title> REST TRIVIA [TRIVIA] </title>
+    <title> REST TRIVIA [LOGIN] </title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -14,23 +14,21 @@
         <ul class="flex space-x-6 mr-24">
           <li><form action="/logout">
           <input type="submit" class="hover:underline transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-lg p-3 text-white font-semibold text-base cursor-pointer" value="Logout"></form></li>
-        </ul>
       </div>
     </nav>
     <div class="flex flex-col h-screen justify-center items-center">
-        <div class="flex flex-col items-center justify-center w-5/6 h-5/6 bg-{{bgColor.replace('"', "")}} bg-opacity-90 shadow-lg rounded-lg -translate-y-20 border-4">
-            <h1 class="uppercase text-2xl font-semibold mb-6 ml-24"> {{C.replace("_", " ")}} </h1>
-            <h2> {{ Q }} </h2>
-            <div>
-                <form action="/answer" method="POST">
-                    <button type="submit" name="ans" value={{isThisCorrect[0]}} class="border-4">{{A[0]}}</button>
-                    <button type="submit" name="ans" value={{isThisCorrect[1]}} class="border-4">{{A[1]}}</button>
-                    <button type="submit" name="ans" value={{isThisCorrect[2]}} class="border-4">{{A[2]}}</button>
-                    <button type="submit" name="ans" value={{isThisCorrect[3]}} class="border-4">{{A[3]}}</button>
-                </form>
-            </div>
-        </div>  
-    </div>
+      <div class="flex flex-col items-center justify-center w-5/6 h-5/6 bg-{{bgColor.replace('"', "")}} bg-opacity-90 shadow-lg rounded-lg -translate-y-20 border-4">
+        <h1 class="uppercase text-2xl font-semibold mb-6 ml-24"> {{C.replace("_", " ")}} </h1>
+        <h2> {{ Q }} </h2>
+        <div>
+            <form action="/answer" method="POST">
+                <button type="submit" name="ans" value={{isThisCorrect[0]}} class="border-4">{{A[0]}}</button>
+                <button type="submit" name="ans" value={{isThisCorrect[1]}} class="border-4">{{A[1]}}</button>
+                <button type="submit" name="ans" value={{isThisCorrect[2]}} class="border-4">{{A[2]}}</button>
+                <button type="submit" name="ans" value={{isThisCorrect[3]}} class="border-4">{{A[3]}}</button>
+            </form>
+        </div>
+      </div>
   </body>
 
 </html>
