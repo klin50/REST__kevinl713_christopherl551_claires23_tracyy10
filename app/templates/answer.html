@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+    <head>
+        <title> REST TRIVIA [ANSWER] </title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+
+    <body class="bg-cover bg-fixed bg-gradient-to-r from-blue-400 to-purple-400 overflow-hidden">
+        <nav class="p-6 text-indigo-600 border-4">
+          <div class="container mx-auto flex justify-between items-center border-4">
+            <a href="/"><img src={{ url_for('static', filename='bed.png') }} alt="bed" width="150" height="150"></a>
+            <ul class="flex space-x-6 mr-24">
+              <li><form action="/logout">
+              <input type="submit" class="hover:underline transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-lg p-3 text-white font-semibold text-base cursor-pointer" value="Logout"></form></li>
+            </ul>
+          </div>
+        </nav>
+        <div class="flex flex-col items-center justify-center bg-{{bgColor.replace('"', "")}} shadow-lg">
+            <h1 class="uppercase text-5xl font-semibold mb-6 ml-24"> {{x}} </h1>
+            {% if R == "incorrect" %}
+                <h2 class="center text-2xl"> Probably should have studied harder instead of playing all those games, huh? Here's some motivation: </h2>
+                <h3 class="center text-3xl font-bold"> "{{ I }}" </h3>
+            {% endif %}
+        </div>
+        <div>
+            <form action="/selection">
+                <button type="submit" class="border-4">> Again! <<< </button>
+            </form>
+            <form action="/gacha">
+                <button type="submit" class="border-4">> Go Gacha >>> </button>
+            </form>
+            <form action="/welcome">
+                <button type="submit" class="border-4">> What is this page??? >>> </button>
+            </form>
+        </div>
+    </body>
+    
+</html>
