@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
-  <body class="bg-cover bg-fixed bg-gradient-to-r from-blue-400 to-purple-400 overflow-hidden">
+  <body class="bg-cover bg-fixed bg-gradient-to-r from-blue-400 to-purple-400 <!--overflow-hidden-->">
     <nav class="p-6 text-indigo-600 border-4">
       <div class="container mx-auto flex justify-between items-center">
         <a href="/"><img src={{ url_for('static', filename='bed.png') }} alt="bed" width="150" height="150"></a
@@ -18,33 +18,33 @@
         <h1 class="text-2xl font-semibold mb-6">Random</h1>
         <h2 class="text-1xl mb-6">Points: #</h2>
         <div class="flex justify-center size-1/5">
-            <form action="/question" method="POST"> 
-                <button type="submit" class="border-4">RANDOM</button>
+            <form action="/selection" method="POST"> 
+                <button type="submit" name="genre" value="none" class="border-4">RANDOM</button>
             </form>
         </div>
         <h1 class="text-2xl font-semibold mb-6">Select a difficulty</h1>
         <h2 class="text-1xl mb-6">Points: #</h2>
         <div class="flex justify-center size-1/5">
             <form action="/selection" method="POST">
-              <button type="submit" class="border-4">EASY</button>
-              <button type="submit" class="border-4">MEDIUM</button>
-              <button type="submit" class="border-4">HARD</button>
+              <button type="submit" name="easy" value="music" class="border-4">EASY</button>
+              <button type="submit" name="medium" value="music" class="border-4">MEDIUM</button>
+              <button type="submit" name="hard" value="music" class="border-4">HARD</button>
             </form>
         </div>
         <h1 class="text-2xl font-semibold mb-6">Select a Category</h1>
         <h2 class="text-1xl mb-6">Points: #</h2>
         <div class="flex justify-center size-1/5">
             <form action="/selection" method="POST">
-              <button type="submit" class="border-4">music</button>
-              <button type="submit" class="border-4">sport_and_leisure</button>
-              <button type="submit" class="border-4">film_and_tv</button>
-              <button type="submit" class="border-4">arts_and_literature</button>
-              <button type="submit" class="border-4">history</button>
-              <button type="submit" class="border-4">society_and_culture</button>
-              <button type="submit" class="border-4">science</button>
-              <button type="submit" class="border-4">geography</button>
-              <button type="submit" class="border-4">food_and_drink</button>
-              <button type="submit" class="border-4">general_knowledge</button>
+              <button type="submit" name="genre" value="music" class="border-4">MUSIC</button>
+              <button type="submit" name="genre" value="sport_and_leisure" class="border-4">SPORTS & LEISURE</button>
+              <button type="submit" name="genre" value="film_and_tv" class="border-4">FILM & TV</button>
+              <button type="submit" name="genre" value="arts_and_literature" class="border-4">ARTS & LITERATURE</button>
+              <button type="submit" name="genre" value="history" class="border-4">HISTORY</button>
+              <button type="submit" name="genre" value="society_and_culture" class="border-4">SOCIETY & CULTURE</button>
+              <button type="submit" name="genre" value="science" class="border-4">SCIENCE</button>
+              <button type="submit" name="genre" value="geography" class="border-4">GEOGRAPHY</button>
+              <button type="submit" name="genre" value="food_and_drink" class="border-4">FOOD & DRINK</button>
+              <button type="submit" name="genre" value="general_knowledge" class="border-4">GENERAL KNOWLEDGE</button>
             </form>
         </div>
 

@@ -70,32 +70,55 @@ def register(): #Is called when user enters their username and password into the
 
 @app.route("/selection", methods=['GET','POST'])
 def selectD():
-#     difficulty = request.form.get('difficulty')
-#     topic = request.form.get('topic')
-#     if (API.genTriviaDifficulty('topic')):
-#         return redirect("/question")#Needs to be modified for both topic and difficulty combined
-#     return render_template("selectD.html", x = "weeee")
     if request.method == "GET":
         return render_template("selectD.html")
-    else:
-        
-        return render_template("questions.html")
+    elif request.method == "POST":
+        qType = request.form.get("genre")
+        trivia = "ugh"
+        if qType == "none":
+            trivia = API.genTrivia()
+        elif qType in ["easy", "medium", "hard"]:
+            trivia = API.genTriviaDifficulty()
+        elif qType in ["music", "sport_and_leisure", "film_and_tv", "arts_and_literature", "history", "society_and_culture", "science", "geography", "food_and_drink", "general_knowledge"]:
+            trivia = API.genTriviaCategory(qType)
+        question = API.getQuestion(trivia)
+        ID = API.getTriviaID(trivia)
+        category = API.getCategory(trivia)
+        difficulty = API.getDifficulty(trivia)
+        bg = "ugh"
+        if difficulty == "easy":
+            bg = "white"
+        elif difficulty == "medium":
+            bg = "orange-300"
+        else:
+            bg = "red-400"
+        answers = API.getAnswers(trivia)
+        correctA = API.getCorrectAnswer(trivia)
+        iTC = []
+        for i in answers:
+            if i == correctA:
+                iTC.append("yes")
+            else:
+                iTC.append("no")
+        return render_template("question.html", isThisCorrect = iTC, A = answers, bgColor = bg, D = difficulty, C = category, Q = question)
 
 @app.route("/question", methods=['GET','POST'])
 def question():
-    set = []
-    trivia = API.genTrivia()
-    return render_template("question.html", trivia=trivia)
+    if request.method == "GET":
+        return redirect("/question") # this shouldnt be happening, pretty sure it'll crash if it ever runs
+    elif request.method == "POST":
+        return render_template("selection.html")
 
 @app.route("/gacha", methods=['GET','POST'])
 def gacha():
-    cat = API.genCat()
-    slip = API.genAdvice()
-    advice = API.getAdvice(slip)
-    #database.checkUsed()
-    print(session['userID'])
-    database.addCard(cat, advice, session['userID'])
-    return render_template("gacha.html", img1 = API.getCat(cat))
+#     cat = API.genCat()
+#     slip = API.genAdvice()
+#     advice = API.getAdvice(slip)
+#     #database.checkUsed()
+#     print(session['userID'])
+#     database.addCard(cat, advice, session['userID'])
+#     return render_template("gacha.html", img1 = API.getCat(cat), x = request.form.get("isThisCorrect"))
+    return render_template("gacha.html", x = request.form.get("isThisCorrect"))
 
 @app.route("/collection")
 def collection():
