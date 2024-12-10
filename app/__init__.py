@@ -1,14 +1,15 @@
 # necessary libraries
-from flask import Flask
+import os
+import sqlite3
+import random
+# ---
+from flask import Flask,render_template
 from flask import render_template
 from flask import request
 from flask import session
 from flask import redirect
 from flask import url_for
 from flask import flash
-import os
-import sqlite3
-import random
 # ---
 import API
 import database
@@ -66,7 +67,7 @@ def register(): #Is called when user enters their username and password into the
         return redirect("/createAccount")
 
 # what is this func????
-''' 
+'''
 @app.route("/checkcorrect",methods=['GET','POST'])
 def auth(): # what in the world is this func??
     question = request.form.get('question')
@@ -111,15 +112,17 @@ def selectD():
             bg = "orange-300"
         else:
             bg = "red-400"
-        answers = API.getAnswers(trivia)
-        correctA = API.getCorrectAnswer(trivia)
-        iTC = []
-        for i in answers:
-            if i == correctA:
-                iTC.append("correct")
-            else:
-                iTC.append("incorrect")
-        return render_template("question.html", isThisCorrect = iTC, A = answers, bgColor = bg, D = difficulty, C = category, Q = question)
+            #can you add these features to the new version
+        #answers = API.getAnswers(trivia)
+        #correctA = API.getCorrectAnswer(trivia)
+        #iTC = []
+        #for i in answers:
+        #    if i == correctA:
+        #        iTC.append("correct")
+        #    else:
+        #        iTC.append("incorrect")
+        #return render_template("question.html", isThisCorrect = iTC, A = answers, bgColor = bg, D = difficulty, C = category, Q = question)
+        return render_template("question.html", trivia=API.genTrivia())
     else:
         return render_template("questions.html") # wont happen
 
