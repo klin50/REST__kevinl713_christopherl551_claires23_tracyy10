@@ -38,7 +38,7 @@ def authenticate():#Is called when the user enters their username & password int
         stored_password = info[1] #Gets user's password from database
         if stored_password == password: #If password is correct
             session['username'] = username
-            session['userID'] = info[4] #Based on userID in database
+            session['userID'] = info[6] #Based on userID in database
             #print(info)
             #print(info[3])
             #print(session['userID'])
@@ -133,6 +133,7 @@ def retAnswer():
         ID = "ugh"
         if result == "correct":
             bg = "emerald-200"
+            database.addPoints(session['userID'])
         else:
             bg = "red-400"
             insult = API.genInsult()
@@ -148,8 +149,10 @@ def gacha():
     slip = API.genAdvice()
     advice = API.getAdvice(slip)
     #database.checkUsed()
-    print(session['userID'])
-    database.addCard(cat, advice, session['userID'])
+    database.incrementPack(session['userID'])
+    for i in range(3):
+        database.addCard(cat, advice, session['userID'])
+        
     return render_template("gacha.html", img1 = API.getCat(cat), x = request.form.get("isThisCorrect"))
 
 @app.route("/collection")
@@ -159,8 +162,8 @@ def collection():
 
 @app.route("/welcome")
 def welcome():
-    #points, packs, cards
-    return render_template("welcome.html")
+    points, packs, cards = database.welcomeDisp(session['userID'])
+    return render_template("welcome.html", points=points, packs=packs, cards=cards)
 
 @app.route("/logout")
 def logout():
