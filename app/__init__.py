@@ -1,14 +1,15 @@
 # necessary libraries
-from flask import Flask
+import os
+import sqlite3
+import random
+# ---
+from flask import Flask,render_template
 from flask import render_template
 from flask import request
 from flask import session
 from flask import redirect
 from flask import url_for
 from flask import flash
-import os
-import sqlite3
-import random
 # ---
 import API
 import database
@@ -38,7 +39,7 @@ def authenticate():#Is called when the user enters their username & password int
         stored_password = info[1] #Gets user's password from database
         if stored_password == password: #If password is correct
             session['username'] = username
-            session['userID'] = info[4] #Based on userID in database
+            session['userID'] = info[6] #Based on userID in database
             #print(info)
             #print(info[3])
             #print(session['userID'])
@@ -62,30 +63,9 @@ def register(): #Is called when user enters their username and password into the
     if (database.createUser(username, password) == 0):
         return redirect("/login")
     else:
+        print("repeat user")
         flash("Username already exists")
         return redirect("/createAccount")
-
-# what is this func????
-''' 
-@app.route("/checkcorrect",methods=['GET','POST'])
-def auth(): # what in the world is this func??
-    question = request.form.get('question')
-    answer = request.form.get('answer')
-    info = database.auth(answer)
-    if info != None:
-        stored_password = info[1] #Gets user's password from database
-        if stored_password == password: #If password is correct
-            session['username'] = username
-            session['userID'] = info[3] #Based on userID in database
-            #print(info)
-            #print(info[3])
-            #print(session['userID'])
-            #print("Both")
-            return redirect("/")
-        return redirect("/incorrect")
-    flash("Error")
-    return redirect("/question")
-'''
 
 @app.route("/selection", methods=['GET','POST'])
 def selectD():
@@ -133,6 +113,7 @@ def retAnswer():
         ID = "ugh"
         if result == "correct":
             bg = "emerald-200"
+            database.addPoints(session['userID'])
         else:
             bg = "red-400"
             insult = API.genInsult()
@@ -144,13 +125,22 @@ def retAnswer():
 
 @app.route("/gacha", methods=['GET','POST'])
 def gacha():
-    cat = API.genCat()
-    slip = API.genAdvice()
-    advice = API.getAdvice(slip)
-    #database.checkUsed()
-    print(session['userID'])
-    database.addCard(cat, advice, session['userID'])
-    return render_template("gacha.html", img1 = API.getCat(cat), x = request.form.get("isThisCorrect"))
+    cards = []
+    if database.getPoints(session['userID']) < 10:
+        #print("not enough points")
+        flash("Not enough points! Try answering more questions until you have 10 points.")
+        return redirect("/selection")
+    database.gacha(session['userID'])
+    database.incrementPack(session['userID'])
+    for i in range(5):
+        cat = API.genCat()
+        catImg = API.getCat(cat)
+        slip = API.genAdvice()
+        advice = API.getAdvice(slip)
+        database.addCard(catImg, advice, session['userID'])
+        cards.append([catImg, advice])
+        
+    return render_template("gacha.html", cardList = cards, x = request.form.get("isThisCorrect"))
 
 @app.route("/collection")
 def collection():
@@ -159,8 +149,8 @@ def collection():
 
 @app.route("/welcome")
 def welcome():
-    #points, packs, cards
-    return render_template("welcome.html")
+    points, packs, cards = database.welcomeDisp(session['userID'])
+    return render_template("welcome.html", points=points, packs=packs, cards=cards)
 
 @app.route("/logout")
 def logout():

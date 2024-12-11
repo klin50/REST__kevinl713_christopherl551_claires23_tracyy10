@@ -1,11 +1,20 @@
 tracyY -- 2024-12-10
+Added to API.py: generate 10 cats, generate cats by category
+
+tracyY -- 2024-12-19
 Users can now select a difficulty, category, or randomly generate and answer a trivia question. Incorrect answers will result in an insult (via insult api). Main file was reorganized and comments were added.
+
+kevinL -- 2024-12-10
+Updated question.html and added leaderboard
+
+kevinL -- 2024-12-10
+Implemented question.html
 
 christopherL -- 2024-12-09
 Worked on question redirection, created correct and incorrect answer pages
 
 claireS -- 2024-12-09
-Worked on addPoints and selectPFP methods for database
+Worked on points methods and selectPFP methods for database, updated gacha functionality
 
 kevinL -- 2024-12-07
 Updated question and added welcome.html
