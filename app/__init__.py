@@ -126,10 +126,10 @@ def retAnswer():
 @app.route("/gacha", methods=['GET','POST'])
 def gacha():
     cards = []
-    if database.getPoints(session['userID']) < 10:
-        #print("not enough points")
-        flash("Not enough points! Try answering more questions until you have 10 points.")
-        return redirect("/selection")
+    #if database.getPoints(session['userID']) < 10:
+    #    #print("not enough points")
+    #    flash("Not enough points! Try answering more questions until you have 10 points.")
+    #    return redirect("/selection")
     database.gacha(session['userID'])
     database.incrementPack(session['userID'])
     for i in range(5):
@@ -139,13 +139,16 @@ def gacha():
         advice = API.getAdvice(slip)
         database.addCard(catImg, advice, session['userID'])
         cards.append([catImg, advice])
-        
+
     return render_template("gacha.html", cardList = cards, x = request.form.get("isThisCorrect"))
 
 @app.route("/collection")
 def collection():
     cards = database.showCards(session['userID'])
-    return render_template("collection.html", collection = cards)
+    emptiness = False
+    if(len(cards) == 0):
+        emptiness = True
+    return render_template("collection.html", collection = cards, empty = emptiness)
 
 @app.route("/welcome")
 def welcome():
