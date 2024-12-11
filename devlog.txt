@@ -1,3 +1,6 @@
+tracyY -- 2024-12-10
+Users can now select a difficulty, category, or randomly generate and answer a trivia question. Incorrect answers will result in an insult (via insult api). Main file was reorganized and comments were added.
+
 christopherL -- 2024-12-09
 Worked on question redirection, created correct and incorrect answer pages
 
@@ -9,6 +12,9 @@ Updated question and added welcome.html
 
 claireS -- 2024-12-06
 Debugged login, updated cards table methods
+
+tracyY -- 2024-12-05
+Rewrote and reorganized database.py and main file
 
 claireS -- 2024-12-05
 Updated readme with install and launch guide
