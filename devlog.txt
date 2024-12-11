@@ -1,4 +1,7 @@
 kevinL -- 2024-12-10
+Updated question.html and added leaderboard
+
+kevinL -- 2024-12-10
 Implemented question.html
 
 christopherL -- 2024-12-09
