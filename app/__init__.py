@@ -40,15 +40,9 @@ def authenticate():#Is called when the user enters their username & password int
         if stored_password == password: #If password is correct
             session['username'] = username
             session['userID'] = info[6] #Based on userID in database
-            #print(info)
-            #print(info[3])
-            #print(session['userID'])
-            #print("Both")
             return redirect("/welcome")
-        #print("PW")
         flash("Invalid password")
         return redirect("/login")
-    #print("User")
     flash("Invalid username")
     return redirect("/login")
 
@@ -125,23 +119,95 @@ def retAnswer():
 
 @app.route("/gacha", methods=['GET','POST'])
 def gacha():
-    cards = []
-    if database.getPoints(session['userID']) < 10:
-        #print("not enough points")
-        flash("Not enough points! Try answering more questions until you have 10 points.")
-        return redirect("/selection")
-    database.gacha(session['userID'])
-    database.incrementPack(session['userID'])
-    for i in range(5):
-        cat = API.genCat()
-        catImg = API.getCat(cat)
-        slip = API.genAdvice()
-        advice = API.getAdvice(slip)
-        database.addCard(catImg, advice, session['userID'])
-        cards.append([catImg, advice])
-        
-    return render_template("gacha.html", cardList = cards, x = request.form.get("isThisCorrect"))
-
+    # points = database.getPoints(session['userID']))
+    points = database.getPoints("3")
+    R1C = API.getCat(API.genCat()) # generate cover image of Random Pack
+    SW1C = API.getCat(API.genCatSwimwear()) # generate cover image of Swimwear Pack
+    M1C = API.getCat(API.genCatMaid()) # generate cover image of Random Pack
+    VT1C = API.getCat(API.genVtuber()) # generate cover image of Random Pack
+    if request.method == "GET":
+        return render_template("gacha.html", P = points, r1c = R1C, sw1c = SW1C, m1c = M1C, vt1c = VT1C)
+    else:
+        action = request.form.get("action")
+        P0 = P1 = P2 = P3 = P4 = P5 = P6 = P7 = P8 = P9 = "DNE"
+        if action == "R1":
+            # remove 10 points
+            img = API.genCat()
+            # store img ID --- or don't, are we allowing duplicate cards? if we do, then we should allow them to show off their 'top 10' cards from their collection for others to see when they click onto their profile
+            P0 = API.getCat(img)
+        elif action == "R10":
+            # remove 90 points
+            imgL = API.genCat10()
+            # store img IDs
+            P0 = imgL[0]
+            P1 = imgL[1]
+            P2 = imgL[2]
+            P3 = imgL[3]
+            P4 = imgL[4]
+            P5 = imgL[5]
+            P6 = imgL[6]
+            P7 = imgL[7]
+            P8 = imgL[8]
+            P9 = imgL[9]
+        elif action == "SW1":
+            # remove 15 points
+            img = API.genCatSwimwear()
+            # store img ID
+            P0 = API.getCat(img)
+        elif action == "SW10":
+            # remove 135 points
+            imgL = API.genCatSwimwear10()
+            # store img IDs
+            P0 = imgL[0]
+            P1 = imgL[1]
+            P2 = imgL[2]
+            P3 = imgL[3]
+            P4 = imgL[4]
+            P5 = imgL[5]
+            P6 = imgL[6]
+            P7 = imgL[7]
+            P8 = imgL[8]
+            P9 = imgL[9]
+        elif action == "M1":
+            # remove 15 points
+            img = API.genCatMaid()
+            # store img ID
+            P0 = API.getCat(img)
+        elif action == "M10":
+            # remove 135 points
+            imgL = API.genCatMaid10()
+            # store img IDs
+            P0 = imgL[0]
+            P1 = imgL[1]
+            P2 = imgL[2]
+            P3 = imgL[3]
+            P4 = imgL[4]
+            P5 = imgL[5]
+            P6 = imgL[6]
+            P7 = imgL[7]
+            P8 = imgL[8]
+            P9 = imgL[9]
+        elif action == "VT1":
+            # remove 15 points
+            img = API.genCatVtuber()
+            # store img ID
+            P0 = API.getCat(img)
+        elif action == "VT10":
+            # remove 135 points
+            imgL = API.genCatVtuber10()
+            # store img IDs
+            P0 = imgL[0]
+            P1 = imgL[1]
+            P2 = imgL[2]
+            P3 = imgL[3]
+            P4 = imgL[4]
+            P5 = imgL[5]
+            P6 = imgL[6]
+            P7 = imgL[7]
+            P8 = imgL[8]
+            P9 = imgL[9]
+        return render_template("gacha.html", p0 = P0, p1 = P1, p2 = P2, p3 = P3, p4 = P4, p5 = P5, p6 = P6, p7 = P7, p8 = P8, p9 = P9, P = points, r1c = R1C, sw1c = SW1C, m1c = M1C, vt1c = VT1C)
+    
 @app.route("/collection")
 def collection():
     cards = database.showCards(session['userID'])
