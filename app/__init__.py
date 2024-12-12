@@ -113,7 +113,7 @@ def retAnswer():
         ID = "ugh"
         if result == "correct":
             bg = "emerald-200"
-            database.addPoints(session['userID'])
+            database.addPoints(session['userID'], 3)
         else:
             bg = "red-400"
             insult = API.genInsult()
@@ -153,7 +153,15 @@ def collection():
 @app.route("/welcome")
 def welcome():
     points, packs, cards = database.welcomeDisp(session['userID'])
-    return render_template("welcome.html", points=points, packs=packs, cards=cards)
+    top = database.leaderboard()
+    #print(top)
+    topPoints = top[0][0:3]
+    topPacks = top[1][0:3]
+    topCards = top[2][0:3]
+    #print(topPoints)
+    #print(topPacks)
+    #print(topCards)
+    return render_template("welcome.html", points=points, packs=packs, cards=cards, PE=topPoints, C=topCards, O=topPacks)
 
 @app.route("/logout")
 def logout():
