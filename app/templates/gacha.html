@@ -19,6 +19,14 @@ time spent: 0.75
     </h1>
   </head>
   <body>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+    
     {% for card in cardList %}
       <img src = {{card[0]}} alt="CatImage" width="150px" height="150px">
       <p> {{card[1]}} </p>

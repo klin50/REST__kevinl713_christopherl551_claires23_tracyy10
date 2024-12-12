@@ -63,7 +63,6 @@ def register(): #Is called when user enters their username and password into the
     if (database.createUser(username, password) == 0):
         return redirect("/login")
     else:
-        print("repeat user")
         flash("Username already exists")
         return redirect("/createAccount")
 
@@ -107,13 +106,19 @@ def selectD():
 def retAnswer():
     if request.method == "POST":
         result = request.form.get("ans")
+        diff = request.form.get("difficulty")
         bg = "ugh"
         insult = "ugh"
         quote = "ugh"
         ID = "ugh"
         if result == "correct":
             bg = "emerald-200"
-            database.addPoints(session['userID'], 3)
+            if diff == "easy":
+                database.addPoints(session['userID'], 1)
+            elif diff == "medium":
+                database.addPoints(session['userID'], 2)
+            else:
+                database.addPoints(session['userID'], 3)
         else:
             bg = "red-400"
             insult = API.genInsult()

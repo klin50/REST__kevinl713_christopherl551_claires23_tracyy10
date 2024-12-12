@@ -111,5 +111,3 @@ def selectPFP(ID, pfpLink):
 #     c,db = connect()
 #     
 #     close(db)
-
-
