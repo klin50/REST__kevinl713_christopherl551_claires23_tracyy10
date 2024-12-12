@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
-  <body class="bg-cover bg-fixed bg-gradient-to-r from-blue-400 to-purple-400 overflow-hidden">
+  <body class="bg-cover bg-fixed bg-gradient-to-r from-blue-400 to-purple-400">
     <nav class="p-6 text-indigo-600 border-4">
       <div class="container mx-auto flex justify-between items-center border-4">
         <a href="/"><img src={{ url_for('static', filename='bed.png') }} alt="bed" width="150" height="150"></a>
@@ -16,13 +16,22 @@
           <input type="submit" class="hover:underline transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-lg p-3 text-white font-semibold text-base cursor-pointer" value="Logout"></form></li>
       </div>
     </nav>
-    <div class="flex flex-col h-screen justify-center items-center">
-      <div class="flex flex-col items-center justify-center w-5/6 h-5/6 bg-white bg-opacity-90 shadow-lg rounded-lg -translate-y-20 border-4">
+    <div class="h-screen justify-center items-center">
+      {% if empty %}
+      <div class="flex w-5/6 bg-white bg-opacity-90 shadow-lg rounded-lg border-4">
+        You have no cards
+      </div>
+      {% endif %}
+      {% if not empty %}
+      <div class="grid grid-cols-4 gap-4 w-5/6 bg-white bg-opacity-90 shadow-lg rounded-lg border-4">
         {% for card in collection %}
+        <div class="container">
           <img src={{card[0]}} alt="cat" width="150" height="150">
           <p>{{card[1]}}</p>
+        </div>
         {% endfor %}
       </div>
+      {% endif %}
     </div>
   </body>
 
