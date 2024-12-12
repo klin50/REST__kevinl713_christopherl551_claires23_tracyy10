@@ -57,7 +57,6 @@ def register(): #Is called when user enters their username and password into the
     if (database.createUser(username, password) == 0):
         return redirect("/login")
     else:
-        print("repeat user")
         flash("Username already exists")
         return redirect("/createAccount")
 
@@ -101,13 +100,19 @@ def selectD():
 def retAnswer():
     if request.method == "POST":
         result = request.form.get("ans")
+        diff = request.form.get("difficulty")
         bg = "ugh"
         insult = "ugh"
         quote = "ugh"
         ID = "ugh"
         if result == "correct":
             bg = "emerald-200"
-            database.addPoints(session['userID'])
+            if diff == "easy":
+                database.addPoints(session['userID'], 1)
+            elif diff == "medium":
+                database.addPoints(session['userID'], 2)
+            else:
+                database.addPoints(session['userID'], 3)
         else:
             bg = "red-400"
             insult = API.genInsult()
@@ -207,16 +212,27 @@ def gacha():
             P8 = imgL[8]
             P9 = imgL[9]
         return render_template("gacha.html", p0 = P0, p1 = P1, p2 = P2, p3 = P3, p4 = P4, p5 = P5, p6 = P6, p7 = P7, p8 = P8, p9 = P9, P = points, r1c = R1C, sw1c = SW1C, m1c = M1C, vt1c = VT1C)
-    
+
 @app.route("/collection")
 def collection():
     cards = database.showCards(session['userID'])
-    return render_template("collection.html", collection = cards)
+    emptiness = False
+    if(len(cards) == 0):
+        emptiness = True
+    return render_template("collection.html", collection = cards, empty = emptiness)
 
 @app.route("/welcome")
 def welcome():
     points, packs, cards = database.welcomeDisp(session['userID'])
-    return render_template("welcome.html", points=points, packs=packs, cards=cards)
+    top = database.leaderboard()
+    #print(top)
+    topPoints = top[0][0:3]
+    topPacks = top[1][0:3]
+    topCards = top[2][0:3]
+    #print(topPoints)
+    #print(topPacks)
+    #print(topCards)
+    return render_template("welcome.html", points=points, packs=packs, cards=cards, PE=topPoints, C=topCards, O=topPacks)
 
 @app.route("/logout")
 def logout():

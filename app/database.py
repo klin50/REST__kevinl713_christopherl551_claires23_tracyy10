@@ -63,13 +63,19 @@ def getPoints(ID):
     close(db)
     return points
 
-def addPoints(ID):
+def addPoints(ID, points):
     c,db = connect()
-    score = int(c.execute("SELECT points FROM users WHERE userID = ?", (ID,)).fetchall()[0][0]) + 1
+    score = int(c.execute("SELECT points FROM users WHERE userID = ?", (ID,)).fetchall()[0][0]) + points
     c.execute("UPDATE users SET points=? WHERE userID = ?", (score, ID))
 #     test = c.execute("SELECT points FROM users WHERE userID = ?", (ID,)).fetchall()
 #     print("points: ")
 #     print(test)
+    close(db)
+    
+def removePoints(ID, points):
+    c,db = connect()
+    score = int(c.execute("SELECT points FROM users WHERE userID = ?", (ID,)).fetchall()[0][0]) - points
+    c.execute("UPDATE users SET points=? WHERE userID = ?", (score, ID))
     close(db)
     
 def gacha(ID):
@@ -87,6 +93,14 @@ def welcomeDisp(ID):
     close(db)
     info = info[0]
     return info[0], info[1], info[2]
+
+def leaderboard():
+    c,db = connect()
+    points = c.execute("SELECT username, points FROM users ORDER BY points DESC").fetchall()
+    packs = c.execute("SELECT username, packs FROM users ORDER BY packs DESC").fetchall()
+    cards = c.execute("SELECT username, cards FROM users ORDER BY cards DESC").fetchall()
+    return points, packs, cards
+    close(db)
     
 def selectPFP(ID, pfpLink):
     c,db = connect()
@@ -97,5 +111,3 @@ def selectPFP(ID, pfpLink):
 #     c,db = connect()
 #     
 #     close(db)
-
-
