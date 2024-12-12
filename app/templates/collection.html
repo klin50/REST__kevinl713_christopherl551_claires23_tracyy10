@@ -16,23 +16,29 @@
           <input type="submit" class="hover:underline transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-lg p-3 text-white font-semibold text-base cursor-pointer" value="Logout"></form></li>
       </div>
     </nav>
-    <div class="h-screen justify-center items-center">
-      {% if empty %}
-      <div class="flex w-5/6 bg-white bg-opacity-90 shadow-lg rounded-lg border-4">
-        You have no cards
+    {% if empty %}
+    <div class="flex justify-center h-screen">
+      <div class="w-5/6 h-5/6 bg-white bg-opacity-90 shadow-lg rounded-lg border-4 flex justify-center items-start p-8">
+        <div class="text-center">
+          <h1 class="text-2xl font-semibold">My Collection</h1>
+          <p class="text-2xl">You have no cards</p>
+          <h1 class="text-6xl">WOMP WOMP</h1>
+        </div>
       </div>
-      {% endif %}
+    </div>
+    {% endif %}
       {% if not empty %}
       <div class="grid grid-cols-4 gap-4 w-5/6 bg-white bg-opacity-90 shadow-lg rounded-lg border-4">
         {% for card in collection %}
-        <div class="container">
-          <img src={{card[0]}} alt="cat" width="150" height="150">
-          <p>{{card[1]}}</p>
+        <div class="w-48 bg-white shadow-lg rounded-lg overflow-hidden">
+          <img src={{card[0]}} alt="cat" class="w-full object-cover">
+          <div class="p-4">
+            <p class="text-gray-600 mt-2">{{card[1]}}</p>
+          </div>
         </div>
         {% endfor %}
       </div>
       {% endif %}
-    </div>
   </body>
 
 </html>
