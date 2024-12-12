@@ -1,3 +1,6 @@
+kevinL -- 2024-12-11
+Updated CSS for collection.html
+
 tracyY -- 2024-12-10
 Added to API.py: generate 10 cats, generate cats by category
 
