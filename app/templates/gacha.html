@@ -5,53 +5,80 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body>
-        <h1>
-            Here are your cards:
-        </h1>
-    <body>
-        {% for card in cardList %}
-        <img src = {{card[0]}} alt="CatImage" width="150px" height="150px">
-        <p> {{card[1]}} </p>
-        {% endfor %}
+    <body>   
+        {% if request.method == "POST" %}
+        <div class="absolute columns-5">
+            {% if p0 != "DNE": %}
+                <img src = {{p0}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+            {% endif %}
+            {% if p1 != "DNE": %}
+                <img src = {{p1}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+            {% endif %}
+            {% if p2 != "DNE": %}
+                <img src = {{p2}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+            {% endif %}
+            {% if p3 != "DNE": %}
+                <img src = {{p3}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+            {% endif %}
+            {% if p4 != "DNE": %}
+                <img src = {{p4}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+            {% endif %}
+            {% if p5 != "DNE": %}
+                <img src = {{p5}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+            {% endif %}
+            {% if p6 != "DNE": %}
+                <img src = {{p6}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+            {% endif %}
+            {% if p7 != "DNE": %}
+                <img src = {{p7}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+            {% endif %}
+            {% if p8 != "DNE": %}
+                <img src = {{p8}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+            {% endif %}
+            {% if p9 != "DNE": %}
+                <img src = {{p9}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+            {% endif %}
+        </div>
+        {% endif %}
         
         <h1> Your points: {{ P }} </h1>
-        <div> <!-- gacha random -->
-            <img src = {{r1c}} alt="Error : Failed to Generate 'Random Pack Cover'" width="150px" height="150px">
-            <form action="/gacha" method="POST">
-                <button type="submit" name="action" value="R1" class="border-4"> PULL x1 [cost 10] </button>
-                <button type="submit" name="action" value="R10" class="border-4"> PULL x10 [cost 90]</button>
+        <div class="columns-2">
+            <div> <!-- gacha random -->
+                <img src = {{r1c}} alt="Error : Failed to Generate 'Random Pack Cover'" class="w-48 object-cover">
+                <form action="/gacha" method="POST">
+                    <button type="submit" name="action" value="R1" class="border-4"> PULL x1 [cost 10] </button>
+                    <button type="submit" name="action" value="R10" class="border-4"> PULL x10 [cost 90]</button>
+                </form>
+            </div>
+            
+            <div class="break-after-column"> <!-- gacha swimwear -->
+                <img src = {{sw1c}} alt="Error : Failed to Generate 'Swimwear Pack Cover'" class="w-48 object-cover"">
+                <form action="/gacha" method="POST">
+                    <button type="submit" name="action" value="SW1" class="border-4"> PULL x1 [cost 15] </button>
+                    <button type="submit" name="action" value="SW10" class="border-4"> PULL x10 [cost 135]</button>
+                </form>
+            </div>
+            
+            <div> <!-- gacha maid -->
+                <img src = {{m1c}} alt="Error : Failed to Generate 'Maid Pack Cover'" class="w-48 object-cover">
+                <form action="/gacha" method="POST">
+                    <button type="submit" name="action" value="M1" class="border-4"> PULL x1 [cost 15] </button>
+                    <button type="submit" name="action" value="M10" class="border-4"> PULL x10 [cost 135]</button>
+                </form>
+            </div>
+            
+            <div> <!-- gacha vtuber -->
+                <img src = {{vt1c}} alt="Error : Failed to Generate 'VTuber Pack Cover'" class="w-48 object-cover">
+                <form action="/gacha" method="POST">
+                    <button type="submit" name="action" value="VT1" class="border-4"> PULL x1 [cost 15] </button>
+                    <button type="submit" name="action" value="VT10" class="border-4"> PULL x10 [cost 135]</button>
+                </form>
+            </div>
+        </div>        
+        <div>
+            <form action="/welcome">
+                <button type="submit" class="border-4"> Back to Dashboard </button>
             </form>
         </div>
-        
-        <div> <!-- gacha swimwear -->
-            <img src = {{sw1c}} alt="Error : Failed to Generate 'Swimwear Pack Cover'" width="150px" height="150px">
-            <button type="submit" name="action" value="SW1" class="border-4"> PULL x1 [cost 15] </button>
-            <button type="submit" name="action" value="SW10" class="border-4"> PULL x10 [cost 135]</button>
-        </div>
-        
-        <div> <!-- gacha maid -->
-            <img src = {{m1c}} alt="Error : Failed to Generate 'Maid Pack Cover'" width="150px" height="150px">
-            <button type="submit" name="action" value="M1" class="border-4"> PULL x1 [cost 15] </button>
-            <button type="submit" name="action" value="M10" class="border-4"> PULL x10 [cost 135]</button>
-        </div>
-        
-        <div> <!-- gacha vtuber -->
-            <img src = {{vt1c}} alt="Error : Failed to Generate 'VTuber Pack Cover'" width="150px" height="150px">
-            <button type="submit" name="action" value="VT1" class="border-4"> PULL x1 [cost 15] </button>
-            <button type="submit" name="action" value="VT10" class="border-4"> PULL x10 [cost 135]</button>
-        </div>
-        
-        {% if request.method == "POST" %}
-        
-        <div class="absolute columns-5">
-            {% for i in [p0, p1, p2, p3, p4, p5, p6, p7, p8, p9]: %}
-                {% if i != "DNE" %}
-                <img src = i alt="Error : Failed to Generate Card" width="150px" height="150px">
-                {% endif %}
-            {% endfor %}
-        </div>
-        
-        {% endif %}
     </body>
 </html>

@@ -1,3 +1,6 @@
+tracyY -- 2024-12-11
+Gacha is done aside from styling, checking points, and storing cards
+
 claireS -- 2024-12-11
 Worked on leaderboard, almost done with points system, and added flashed messages
 

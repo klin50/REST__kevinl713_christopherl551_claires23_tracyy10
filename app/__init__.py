@@ -144,16 +144,16 @@ def gacha():
             # remove 90 points
             imgL = API.genCat10()
             # store img IDs
-            P0 = imgL[0]
-            P1 = imgL[1]
-            P2 = imgL[2]
-            P3 = imgL[3]
-            P4 = imgL[4]
-            P5 = imgL[5]
-            P6 = imgL[6]
-            P7 = imgL[7]
-            P8 = imgL[8]
-            P9 = imgL[9]
+            P0 = API.getCat(imgL[0])
+            P1 = API.getCat(imgL[1])
+            P2 = API.getCat(imgL[2])
+            P3 = API.getCat(imgL[3])
+            P4 = API.getCat(imgL[4])
+            P5 = API.getCat(imgL[5])
+            P6 = API.getCat(imgL[6])
+            P7 = API.getCat(imgL[7])
+            P8 = API.getCat(imgL[8])
+            P9 = API.getCat(imgL[9])
         elif action == "SW1":
             # remove 15 points
             img = API.genCatSwimwear()
@@ -163,16 +163,16 @@ def gacha():
             # remove 135 points
             imgL = API.genCatSwimwear10()
             # store img IDs
-            P0 = imgL[0]
-            P1 = imgL[1]
-            P2 = imgL[2]
-            P3 = imgL[3]
-            P4 = imgL[4]
-            P5 = imgL[5]
-            P6 = imgL[6]
-            P7 = imgL[7]
-            P8 = imgL[8]
-            P9 = imgL[9]
+            P0 = API.getCat(imgL[0])
+            P1 = API.getCat(imgL[1])
+            P2 = API.getCat(imgL[2])
+            P3 = API.getCat(imgL[3])
+            P4 = API.getCat(imgL[4])
+            P5 = API.getCat(imgL[5])
+            P6 = API.getCat(imgL[6])
+            P7 = API.getCat(imgL[7])
+            P8 = API.getCat(imgL[8])
+            P9 = API.getCat(imgL[9])
         elif action == "M1":
             # remove 15 points
             img = API.genCatMaid()
@@ -182,35 +182,35 @@ def gacha():
             # remove 135 points
             imgL = API.genCatMaid10()
             # store img IDs
-            P0 = imgL[0]
-            P1 = imgL[1]
-            P2 = imgL[2]
-            P3 = imgL[3]
-            P4 = imgL[4]
-            P5 = imgL[5]
-            P6 = imgL[6]
-            P7 = imgL[7]
-            P8 = imgL[8]
-            P9 = imgL[9]
+            P0 = API.getCat(imgL[0])
+            P1 = API.getCat(imgL[1])
+            P2 = API.getCat(imgL[2])
+            P3 = API.getCat(imgL[3])
+            P4 = API.getCat(imgL[4])
+            P5 = API.getCat(imgL[5])
+            P6 = API.getCat(imgL[6])
+            P7 = API.getCat(imgL[7])
+            P8 = API.getCat(imgL[8])
+            P9 = API.getCat(imgL[9])
         elif action == "VT1":
             # remove 15 points
-            img = API.genCatVtuber()
+            img = API.genVtuber()
             # store img ID
             P0 = API.getCat(img)
         elif action == "VT10":
             # remove 135 points
-            imgL = API.genCatVtuber10()
+            imgL = API.genVtuber10()
             # store img IDs
-            P0 = imgL[0]
-            P1 = imgL[1]
-            P2 = imgL[2]
-            P3 = imgL[3]
-            P4 = imgL[4]
-            P5 = imgL[5]
-            P6 = imgL[6]
-            P7 = imgL[7]
-            P8 = imgL[8]
-            P9 = imgL[9]
+            P0 = API.getCat(imgL[0])
+            P1 = API.getCat(imgL[1])
+            P2 = API.getCat(imgL[2])
+            P3 = API.getCat(imgL[3])
+            P4 = API.getCat(imgL[4])
+            P5 = API.getCat(imgL[5])
+            P6 = API.getCat(imgL[6])
+            P7 = API.getCat(imgL[7])
+            P8 = API.getCat(imgL[8])
+            P9 = API.getCat(imgL[9])
         return render_template("gacha.html", p0 = P0, p1 = P1, p2 = P2, p3 = P3, p4 = P4, p5 = P5, p6 = P6, p7 = P7, p8 = P8, p9 = P9, P = points, r1c = R1C, sw1c = SW1C, m1c = M1C, vt1c = VT1C)
 
 @app.route("/collection")
