@@ -9,6 +9,13 @@
   </head>
 
   <body class="bg-cover bg-fixed bg-gradient-to-r from-blue-400 to-purple-400 overflow-hidden">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
     <nav class="p-6 text-indigo-600 border-4">
       <div class="container mx-auto flex justify-between items-center border-4">
         <a href="/"><img src={{ url_for('static', filename='bed.png') }} alt="bed" width="150" height="150"></a>
@@ -19,7 +26,7 @@
             </form>
           </li>
       </div>
-    </nav>
+    </nav> 
     <div class="flex flex-col h-screen justify-center items-center">
       <div class="flex flex-row justify-between w-5/6 h-5/6 bg-opacity-90 bg-white shadow-lg rounded-lg -translate-y-20 border-4">
         <div class="flex flex-col justify-center w-3/4 p-6">

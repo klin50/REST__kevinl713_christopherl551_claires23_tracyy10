@@ -8,35 +8,45 @@
     <body>   
         {% if request.method == "POST" %}
         <div class="absolute columns-5">
-            {% if p0 != "DNE": %}
-                <img src = {{p0}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+            {% if p0[0] != "DNE": %}
+                <img src = {{p0[0]}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+                <p> {{p0[1]}} </p>
             {% endif %}
-            {% if p1 != "DNE": %}
-                <img src = {{p1}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+            {% if p1[0] != "DNE": %}
+                <img src = {{p1[0]}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+                <p> {{p1[1]}} </p>
             {% endif %}
-            {% if p2 != "DNE": %}
-                <img src = {{p2}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+            {% if p2[0] != "DNE": %}
+                <img src = {{p2[0]}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+                <p> {{p2[1]}} </p>
             {% endif %}
-            {% if p3 != "DNE": %}
-                <img src = {{p3}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+            {% if p3[0] != "DNE": %}
+                <img src = {{p3[0]}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+                <p> {{p3[1]}} </p>
             {% endif %}
-            {% if p4 != "DNE": %}
-                <img src = {{p4}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+            {% if p4[0] != "DNE": %}
+                <img src = {{p4[0]}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+                <p> {{p4[1]}} </p>
             {% endif %}
-            {% if p5 != "DNE": %}
-                <img src = {{p5}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+            {% if p5[0] != "DNE": %}
+                <img src = {{p5[0]}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+                <p> {{p5[1]}} </p>
             {% endif %}
-            {% if p6 != "DNE": %}
-                <img src = {{p6}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+            {% if p6[0] != "DNE": %}
+                <img src = {{p6v}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+                <p> {{p6[1]}} </p>
             {% endif %}
-            {% if p7 != "DNE": %}
-                <img src = {{p7}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+            {% if p7[0] != "DNE": %}
+                <img src = {{p7[0]}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+                <p> {{p7[1]}} </p>
             {% endif %}
-            {% if p8 != "DNE": %}
-                <img src = {{p8}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+            {% if p8[0] != "DNE": %}
+                <img src = {{p8[0]}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+                <p> {{p8[1]}} </p>
             {% endif %}
-            {% if p9 != "DNE": %}
-                <img src = {{p9}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+            {% if p9[0] != "DNE": %}
+                <img src = {{p9[0]}} alt="Error : Failed to Generate Card" width="150px" height="150px">
+                <p> {{p9[1]}} </p>
             {% endif %}
         </div>
         {% endif %}
@@ -74,7 +84,8 @@
                     <button type="submit" name="action" value="VT10" class="border-4"> PULL x10 [cost 135]</button>
                 </form>
             </div>
-        </div>        
+        </div>
+        <br><br><br>
         <div>
             <form action="/welcome">
                 <button type="submit" class="border-4"> Back to Dashboard </button>
