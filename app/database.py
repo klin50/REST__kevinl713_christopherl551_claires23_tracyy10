@@ -88,6 +88,7 @@ def removePoints(ID, points):
 def welcomeDisp(ID):
     c,db = connect()
     info = c.execute("SELECT points, packs, cards FROM users WHERE userID = ?", (ID,)).fetchone()
+    print(info)
     close(db)
     return info[0], info[1], info[2]
 

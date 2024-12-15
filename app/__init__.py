@@ -210,6 +210,7 @@ def welcome():
         flash("Log in to continue!")
         return redirect("/login")
     points, packs, cards = database.welcomeDisp(session['userID'])
+    print(points, packs, cards)
     top = database.leaderboard()
     #print(top)
     topPoints = top[0][0:3]
