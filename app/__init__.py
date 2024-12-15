@@ -40,15 +40,9 @@ def authenticate():#Is called when the user enters their username & password int
         if stored_password == password: #If password is correct
             session['username'] = username
             session['userID'] = info[6] #Based on userID in database
-            #print(info)
-            #print(info[3])
-            #print(session['userID'])
-            #print("Both")
             return redirect("/welcome")
-        #print("PW")
-        flash("Invalid password")
+        flash("Incorrect password")
         return redirect("/login")
-    #print("User")
     flash("Invalid username")
     return redirect("/login")
 
@@ -68,8 +62,11 @@ def register(): #Is called when user enters their username and password into the
 
 @app.route("/selection", methods=['GET','POST'])
 def selectD():
+    if not 'username' in session:
+        flash("Log in to continue!")
+        return redirect("/login")
     if request.method == "GET":
-        return render_template("selectD.html")
+        return render_template("selectD.html",pfp=database.getPFP(session['userID']),points=database.getPoints(session['userID']))
     elif request.method == "POST":
         qType = request.form.get("genre")
         trivia = "ugh"
@@ -98,12 +95,15 @@ def selectD():
                 iTC.append("correct")
             else:
                 iTC.append("incorrect")
-        return render_template("question.html", isThisCorrect = iTC, A = answers, bgColor = bg, D = difficulty, C = category, Q = question)
+        return render_template("question.html", pfp=database.getPFP(session['userID']),points=database.getPoints(session['userID']), isThisCorrect = iTC, A = answers, bgColor = bg, D = difficulty, C = category, Q = question)
     else:
         return render_template("questions.html") # wont happen
 
 @app.route("/answer", methods=['GET','POST'])
 def retAnswer():
+    if not 'username' in session:
+        flash("Log in to continue!")
+        return redirect("/login")
     if request.method == "POST":
         result = request.form.get("ans")
         diff = request.form.get("difficulty")
@@ -124,39 +124,91 @@ def retAnswer():
             insult = API.genInsult()
             quote = API.getInsult(insult)
             ID = API.getInsultID(insult)
-        # now give points etc, etc
-        return render_template("answer.html", R = result, I = quote, bgColor = bg, x = request.form.get("ans"))
+        return render_template("answer.html", pfp=database.getPFP(session['userID']),points=database.getPoints(session['userID']), R = result, I = quote, bgColor = bg, x = request.form.get("ans"))
     return redirect("/")
+
+def addPack(cards):
+    database.incrementPack(session['userID'])
+    for i in cards:
+        database.addCard(i, API.getAdvice(API.genAdvice()), session['userID'])
 
 @app.route("/gacha", methods=['GET','POST'])
 def gacha():
-    cards = []
-    #if database.getPoints(session['userID']) < 10:
-    #    #print("not enough points")
-    #    flash("Not enough points! Try answering more questions until you have 10 points.")
-    #    return redirect("/selection")
-    database.gacha(session['userID'])
-    database.incrementPack(session['userID'])
-    for i in range(5):
-        cat = API.genCat()
-        catImg = API.getCat(cat)
-        slip = API.genAdvice()
-        advice = API.getAdvice(slip)
-        database.addCard(catImg, advice, session['userID'])
-        cards.append([catImg, advice])
-
-    return render_template("gacha.html", cardList = cards, x = request.form.get("isThisCorrect"))
+    if not 'username' in session:
+        flash("Log in to continue!")
+        return redirect("/login")
+    points = database.getPoints(session['userID'])
+    if request.method == "GET":
+        R1C = API.getCat(API.genCat()) # generate cover image of Random Pack
+        SW1C = API.getCat(API.genCatSwimwear()) # generate cover image of Swimwear Pack
+        M1C = API.getCat(API.genCatMaid()) # generate cover image of Random Pack
+        VT1C = API.getCat(API.genVtuber()) # generate cover image of Random Pack
+        return render_template("gacha.html", pfp=database.getPFP(session['userID']), points=points, r1c = R1C, sw1c = SW1C, m1c = M1C, vt1c = VT1C)
+    else:
+        action = request.form.get("action")
+        if action[0] == "R":
+            if action == "R1":
+                if points < 10:
+                    flash("INSUFFICIENT POINTS")
+                    return redirect("/")
+                else:
+                    database.addCard(API.getCat(API.genCat()), API.getAdvice(API.genAdvice()), session['userID'])
+                    database.removePoints(session['userID'],10)
+            if action == "R5":
+                if points < 45:
+                    flash("INSUFFICIENT POINTS")
+                    return redirect("/")
+                else:
+                    P0 = API.genCat5()
+                    addPack(P0)
+                    database.removePoints(session['userID'],45)
+        if action[-1] == "1":
+            if points < 15:
+                flash("INSUFFICIENT POINTS")
+                return redirect("/")
+            elif action == "SW1":
+                database.addCard(API.getCat(API.genCatSwimwear()), API.getAdvice(API.genAdvice()), session['userID'])
+                database.removePoints(session['userID'],15)
+            elif action == "M1":
+                database.addCard(API.getCat(API.genCatMaid()), API.getAdvice(API.genAdvice()), session['userID'])
+                database.removePoints(session['userID'],15)
+            elif action == "VT1":
+                database.addCard(API.getCat(API.genVtuber()), API.getAdvice(API.genAdvice()), session['userID'])
+                database.removePoints(session['userID'],15)
+        if action[-1] == "5":
+            if points < 70:
+                flash("INSUFFICIENT POINTS")
+                return redirect("/")
+            elif action == "SW5":
+                P0 = API.genCatSwimwear5()
+                addPack(P0)
+                database.removePoints(session['userID'],70)
+            elif action == "M5":
+                P0 = API.genCatMaid5()
+                addPack(P0)
+                database.removePoints(session['userID'],70)
+            elif action == "VT5":
+                P0 = API.genVtuber5()
+                addPack(P0)
+                database.removePoints(session['userID'],70)
+        return redirect("/")
 
 @app.route("/collection")
 def collection():
+    if not 'username' in session:
+        flash("Log in to continue!")
+        return redirect("/login")
     cards = database.showCards(session['userID'])
     emptiness = False
     if(len(cards) == 0):
         emptiness = True
-    return render_template("collection.html", collection = cards, empty = emptiness)
+    return render_template("collection.html",pfp=database.getPFP(session['userID']),points=database.getPoints(session['userID']), collection = cards, empty = emptiness)
 
 @app.route("/welcome")
 def welcome():
+    if not 'username' in session:
+        flash("Log in to continue!")
+        return redirect("/login")
     points, packs, cards = database.welcomeDisp(session['userID'])
     top = database.leaderboard()
     #print(top)
@@ -166,7 +218,17 @@ def welcome():
     #print(topPoints)
     #print(topPacks)
     #print(topCards)
-    return render_template("welcome.html", points=points, packs=packs, cards=cards, PE=topPoints, C=topCards, O=topPacks)
+    #print(database.getPFP(session['userID']))
+    return render_template("welcome.html",pfp=database.getPFP(session['userID']),user=session['username'], points=points, packs=packs, cards=cards, PE=topPoints, C=topCards, O=topPacks)
+
+@app.route("/profile", methods=['GET','POST'])
+def profile():
+    if not 'username' in session:
+        flash("Log in to continue!")
+        return redirect("/login")
+    print(request.form.get("profile"))
+    database.selectPFP(session['userID'],request.form.get("profile"))
+    return redirect("/welcome")
 
 @app.route("/logout")
 def logout():
