@@ -1,35 +1,78 @@
 <!DOCTYPE HTML>
-<!--
-Double Ls - Kevin Lin, Christopher Louie
-SoftDev
-K23 - NASA API
-2024-11-20
-time spent: 0.75
--->
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>
-      Cat Image
-    </title>
-    <h1>
-      Here are your cards:
-    </h1>
-  </head>
-  <body>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-    {% endif %}
-    {% endwith %}
-    
-    {% for card in cardList %}
-      <img src = {{card[0]}} alt="CatImage" width="150px" height="150px">
-      <p> {{card[1]}} </p>
-    {% endfor %}
-  </body>
+    <head>
+        <title> REST TRIVIA [GACHA] </title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-cover bg-fixed bg-gradient-to-r from-blue-400 to-purple-400 overflow-hidden">
+      {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              {% for message in messages %}
+                  <p>{{ message }}</p>
+              {% endfor %}
+          {% endif %}
+      {% endwith %}
+      <nav class="p-6 text-indigo-600 border-4">
+        <div class="container mx-auto flex justify-between items-center border-4">
+          <a href="/"><img src={{ url_for('static', filename='bed.png') }} alt="bed" width="150" height="150"></a>
+          <ul class="flex space-x-6 mr-24 justify-center items-center">
+            <li>
+              {% if pfp == "" %}
+              <img class="w-14 h-14 rounded-full" src={{ url_for('static', filename='default.jpg') }} alt="pfp">
+              {% endif %}
+              {% if pfp != "" %}
+              <div class="h-14 w-14 overflow-hidden rounded-full">
+                <img class="object-cover w-full h-full" src="{{pfp}}" alt="newpfp">
+              </div>
+              {% endif %}
+            </li>
+            <li>
+              <p class="2xl text-white font-semibold text-base">{{points}}pts</p>
+            </li>
+            <li>
+              <form action="/logout">
+                <input type="submit" class="hover:underline transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-lg p-3 text-white font-semibold text-base cursor-pointer" value="Logout">
+              </form>
+            </li>
+        </div>
+      </nav>
+      <div class="flex flex-col h-screen justify-center items-center">
+        <div class="flex flex-row justify-between w-5/6 h-5/6 bg-opacity-90 bg-white shadow-lg rounded-lg -translate-y-20 border-4">
+          <div class="columns-2">
+              <div> <!-- gacha random -->
+                  <img src = {{r1c}} alt="Error : Failed to Generate 'Random Pack Cover'" class="w-48 object-cover">
+                  <form action="/gacha" method="POST">
+                      <button type="submit" name="action" value="R1" class="border-4"> PULL x1 [cost 10] </button>
+                      <button type="submit" name="action" value="R5" class="border-4"> PULL x5 [cost 45]</button>
+                  </form>
+              </div>
+
+              <div class="break-after-column"> <!-- gacha swimwear -->
+                  <img src = {{sw1c}} alt="Error : Failed to Generate 'Swimwear Pack Cover'" class="w-48 object-cover">
+                  <form action="/gacha" method="POST">
+                      <button type="submit" name="action" value="SW1" class="border-4"> PULL x1 [cost 15] </button>
+                      <button type="submit" name="action" value="SW5" class="border-4"> PULL x5 [cost 70]</button>
+                  </form>
+              </div>
+
+              <div> <!-- gacha maid -->
+                  <img src = {{m1c}} alt="Error : Failed to Generate 'Maid Pack Cover'" class="w-48 object-cover">
+                  <form action="/gacha" method="POST">
+                      <button type="submit" name="action" value="M1" class="border-4"> PULL x1 [cost 15] </button>
+                      <button type="submit" name="action" value="M5" class="border-4"> PULL x5 [cost 70]</button>
+                  </form>
+              </div>
+
+              <div> <!-- gacha vtuber -->
+                  <img src = {{vt1c}} alt="Error : Failed to Generate 'VTuber Pack Cover'" class="w-48 object-cover">
+                  <form action="/gacha" method="POST">
+                      <button type="submit" name="action" value="VT1" class="border-4"> PULL x1 [cost 15] </button>
+                      <button type="submit" name="action" value="VT5" class="border-4"> PULL x5 [cost 70]</button>
+                  </form>
+              </div>
+          </div>
+        </div>
+      </div>
+    </body>
 </html>
