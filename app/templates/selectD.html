@@ -10,22 +10,39 @@
     <nav class="p-6 text-indigo-600 border-4">
       <div class="container mx-auto flex justify-between items-center border-4">
         <a href="/"><img src={{ url_for('static', filename='bed.png') }} alt="bed" width="150" height="150"></a>
-        <ul class="flex space-x-6 mr-24">
-          <li><form action="/logout">
-          <input type="submit" class="hover:underline transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-lg p-3 text-white font-semibold text-base cursor-pointer" value="Logout"></form></li>
+        <ul class="flex space-x-6 mr-24 justify-center items-center">
+          <li>
+            {% if pfp == "" %}
+            <img class="w-14 h-14 rounded-full" src={{ url_for('static', filename='default.jpg') }} alt="pfp">
+            {% endif %}
+            {% if pfp != "" %}
+            <div class="h-14 w-14 overflow-hidden rounded-full">
+              <img class="object-cover w-full h-full" src="{{pfp}}" alt="newpfp">
+            </div>
+            {% endif %}
+          </li>
+          <li>
+            <p class="2xl text-white font-semibold text-base">{{points}}pts</p>
+          </li>
+          <li>
+            <form action="/logout">
+              <input type="submit" class="hover:underline transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-lg p-3 text-white font-semibold text-base cursor-pointer" value="Logout">
+            </form>
+          </li>
       </div>
     </nav>
 
     <div class="flex flex-col h-full justify-center items-center">
       <div class="bg-white bg-opacity-90 p-8 rounded-lg shadow-lg w-3/4 sm:w-1/2 md:w-2/5 lg:w-1/3">
         <h1 class="text-3xl font-semibold text-center mb-6 text-gray-800">Random</h1>
-        <p class="text-xl text-center mb-4 text-gray-600">Points: 1<br>Points: 2<br>Points: 3</p>
+        <h2 class="text-xl text-center mb-4 text-gray-600">Points: #</h2>
         <div class="flex justify-center mb-6">
           <form action="/selection" method="POST">
             <button type="submit" name="genre" value="none" class="bg-blue-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-blue-600 transition duration-300">RANDOM</button>
           </form>
         </div>
         <h1 class="text-3xl font-semibold text-center mb-6 text-gray-800">Select a difficulty</h1>
+        <h2 class="text-xl text-center mb-4 text-gray-600">Points: #</h2>
         <div class="flex justify-center space-x-4 mb-6">
           <form action="/selection" method="POST">
             <button type="submit" name="genre" value="easy" class="bg-green-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-green-600 transition duration-300">EASY</button>
@@ -38,6 +55,7 @@
           </form>
         </div>
         <h1 class="text-3xl font-semibold text-center mb-6 text-gray-800">Select a Category</h1>
+        <h2 class="text-xl text-center mb-4 text-gray-600">Points: #</h2>
         <div class="grid grid-cols-2 gap-4 mb-6 translate-x-10">
           <form action="/selection" method="POST">
             <button type="submit" name="genre" value="music" class="bg-teal-500 text-white font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-teal-600 transition duration-300">MUSIC</button>

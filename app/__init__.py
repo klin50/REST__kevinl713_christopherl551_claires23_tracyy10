@@ -63,7 +63,7 @@ def register(): #Is called when user enters their username and password into the
 @app.route("/selection", methods=['GET','POST'])
 def selectD():
     if request.method == "GET":
-        return render_template("selectD.html")
+        return render_template("selectD.html",pfp=database.getPFP(session['userID']),points=database.getPoints(session['userID']))
     elif request.method == "POST":
         qType = request.form.get("genre")
         trivia = "ugh"
@@ -92,7 +92,7 @@ def selectD():
                 iTC.append("correct")
             else:
                 iTC.append("incorrect")
-        return render_template("question.html", isThisCorrect = iTC, A = answers, bgColor = bg, D = difficulty, C = category, Q = question)
+        return render_template("question.html", pfp=database.getPFP(session['userID']),points=database.getPoints(session['userID']), isThisCorrect = iTC, A = answers, bgColor = bg, D = difficulty, C = category, Q = question)
     else:
         return render_template("questions.html") # wont happen
 
@@ -118,146 +118,71 @@ def retAnswer():
             insult = API.genInsult()
             quote = API.getInsult(insult)
             ID = API.getInsultID(insult)
-        return render_template("answer.html", R = result, I = quote, bgColor = bg, x = request.form.get("ans"))
+        return render_template("answer.html", pfp=database.getPFP(session['userID']),points=database.getPoints(session['userID']), R = result, I = quote, bgColor = bg, x = request.form.get("ans"))
     return redirect("/")
+
+def addPack(cards):
+    database.incrementPack(session['userID'])
+    for i in cards:
+        database.addCard(i, API.getAdvice(API.genAdvice()), session['userID'])
 
 @app.route("/gacha", methods=['GET','POST'])
 def gacha():
     points = database.getPoints(session['userID'])
-    R1C = API.getCat(API.genCat()) # generate cover image of Random Pack
-    SW1C = API.getCat(API.genCatSwimwear()) # generate cover image of Swimwear Pack
-    M1C = API.getCat(API.genCatMaid()) # generate cover image of Random Pack
-    VT1C = API.getCat(API.genVtuber()) # generate cover image of Random Pack
     if request.method == "GET":
-        return render_template("gacha.html", P = points, r1c = R1C, sw1c = SW1C, m1c = M1C, vt1c = VT1C)
+        R1C = API.getCat(API.genCat()) # generate cover image of Random Pack
+        SW1C = API.getCat(API.genCatSwimwear()) # generate cover image of Swimwear Pack
+        M1C = API.getCat(API.genCatMaid()) # generate cover image of Random Pack
+        VT1C = API.getCat(API.genVtuber()) # generate cover image of Random Pack
+        return render_template("gacha.html", pfp=database.getPFP(session['userID']), points=points, r1c = R1C, sw1c = SW1C, m1c = M1C, vt1c = VT1C)
     else:
         action = request.form.get("action")
-        P0 = P1 = P2 = P3 = P4 = P5 = P6 = P7 = P8 = P9 = ["DNE"]
-        if action == "R1":
-            if points < 10:
-                flash("INSUFFICIENT POINTS")
-                return redirect("/")
-            else:
-                database.removePoints(session['userID'], 10)
-                img = API.genCat()
-                advice = API.getAdvice(API.genAdvice())
-                P0 = [API.getCat(img), advice]
-                database.addCard(P0[0], advice, session['userID'])
-        elif action == "R10":
-            if points < 90:
-                flash("INSUFFICIENT POINTS")
-                return redirect("/")
-            else:
-                database.removePoints(session['userID'], 90)
-                imgL = API.genCat10()
-                P0 = [API.getCat(imgL[0])]
-                P1 = [API.getCat(imgL[1])]
-                P2 = [API.getCat(imgL[2])]
-                P3 = [API.getCat(imgL[3])]
-                P4 = [API.getCat(imgL[4])]
-                P5 = [API.getCat(imgL[5])]
-                P6 = [API.getCat(imgL[6])]
-                P7 = [API.getCat(imgL[7])]
-                P8 = [API.getCat(imgL[8])]
-                P9 = [API.getCat(imgL[9])]
-                for i in [P0, P1, P2, P3, P4, P5, P6, P7, P8, P9]:
-                    advice = API.getAdvice(API.genAdvice())
-                    i.append(advice)
-                    database.addCard(i[0], advice, session['userID'])
-        elif action == "SW1":
+        if action[0] == "R":
+            if action == "R1":
+                if points < 10:
+                    flash("INSUFFICIENT POINTS")
+                    return redirect("/")
+                else:
+                    database.addCard(API.getCat(API.genCat()), API.getAdvice(API.genAdvice()), session['userID'])
+                    database.removePoints(session['userID'],10)
+            if action == "R5":
+                if points < 45:
+                    flash("INSUFFICIENT POINTS")
+                    return redirect("/")
+                else:
+                    P0 = API.genCat5()
+                    addPack(P0)
+                    database.removePoints(session['userID'],45)
+        if action[-1] == "1":
             if points < 15:
                 flash("INSUFFICIENT POINTS")
                 return redirect("/")
-            else:
-                database.removePoints(session['userID'], 15)
-                img = API.genCatSwimwear()
-                advice = API.getAdvice(API.genAdvice())
-                P0 = [API.getCat(img), advice]
-                database.addCard(P0[0], advice, session['userID'])
-        elif action == "SW10":
-            if points < 135:
+            elif action == "SW1":
+                database.addCard(API.getCat(API.genCatSwimwear()), API.getAdvice(API.genAdvice()), session['userID'])
+                database.removePoints(session['userID'],15)
+            elif action == "M1":
+                database.addCard(API.getCat(API.genCatMaid()), API.getAdvice(API.genAdvice()), session['userID'])
+                database.removePoints(session['userID'],15)
+            elif action == "VT1":
+                database.addCard(API.getCat(API.genVtuber()), API.getAdvice(API.genAdvice()), session['userID'])
+                database.removePoints(session['userID'],15)
+        if action[-1] == "5":
+            if points < 70:
                 flash("INSUFFICIENT POINTS")
                 return redirect("/")
-            else:
-                database.removePoints(session['userID'], 135)
-                imgL = API.genCatSwimwear10()
-                P0 = [API.getCat(imgL[0])]
-                P1 = [API.getCat(imgL[1])]
-                P2 = [API.getCat(imgL[2])]
-                P3 = [API.getCat(imgL[3])]
-                P4 = [API.getCat(imgL[4])]
-                P5 = [API.getCat(imgL[5])]
-                P6 = [API.getCat(imgL[6])]
-                P7 = [API.getCat(imgL[7])]
-                P8 = [API.getCat(imgL[8])]
-                P9 = [API.getCat(imgL[9])]
-                for i in [P0, P1, P2, P3, P4, P5, P6, P7, P8, P9]:
-                    advice = API.getAdvice(API.genAdvice())
-                    i.append(advice)
-                    database.addCard(i[0], advice, session['userID'])
-        elif action == "M1":
-            if points < 15:
-                flash("INSUFFICIENT POINTS")
-                return redirect("/")
-            else:
-                database.removePoints(session['userID'], 15)
-                img = API.genCatMaid()
-                advice = API.getAdvice(API.genAdvice())
-                P0 = [API.getCat(img), advice]
-                database.addCard(P0[0], advice, session['userID'])
-        elif action == "M10":
-            if points < 135:
-                flash("INSUFFICIENT POINTS")
-                return redirect("/")
-            else:
-                database.removePoints(session['userID'], 135)
-                imgL = API.genCatMaid10()
-                P0 = [API.getCat(imgL[0])]
-                P1 = [API.getCat(imgL[1])]
-                P2 = [API.getCat(imgL[2])]
-                P3 = [API.getCat(imgL[3])]
-                P4 = [API.getCat(imgL[4])]
-                P5 = [API.getCat(imgL[5])]
-                P6 = [API.getCat(imgL[6])]
-                P7 = [API.getCat(imgL[7])]
-                P8 = [API.getCat(imgL[8])]
-                P9 = [API.getCat(imgL[9])]
-                for i in [P0, P1, P2, P3, P4, P5, P6, P7, P8, P9]:
-                    advice = API.getAdvice(API.genAdvice())
-                    i.append(advice)
-                    database.addCard(i[0], advice, session['userID'])
-        elif action == "VT1":
-            if points < 15:
-                flash("INSUFFICIENT POINTS")
-                return redirect("/")
-            else:
-                database.removePoints(session['userID'], 15)
-                img = API.genVtuber()
-                advice = API.getAdvice(API.genAdvice())
-                P0 = [API.getCat(img), advice]
-                database.addCard(P0[0], advice, session['userID'])
-        elif action == "VT10":
-            if points < 135:
-                flash("INSUFFICIENT POINTS")
-                return redirect("/")
-            else:
-                database.removePoints(session['userID'], 135)
-                imgL = API.genVtuber10()
-                P0 = [API.getCat(imgL[0])]
-                P1 = [API.getCat(imgL[1])]
-                P2 = [API.getCat(imgL[2])]
-                P3 = [API.getCat(imgL[3])]
-                P4 = [API.getCat(imgL[4])]
-                P5 = [API.getCat(imgL[5])]
-                P6 = [API.getCat(imgL[6])]
-                P7 = [API.getCat(imgL[7])]
-                P8 = [API.getCat(imgL[8])]
-                P9 = [API.getCat(imgL[9])]
-                for i in [P0, P1, P2, P3, P4, P5, P6, P7, P8, P9]:
-                    advice = API.getAdvice(API.genAdvice())
-                    i.append(advice)
-                    database.addCard(i[0], advice, session['userID'])
-        return render_template("gacha.html", p0 = P0, p1 = P1, p2 = P2, p3 = P3, p4 = P4, p5 = P5, p6 = P6, p7 = P7, p8 = P8, p9 = P9, P = points, r1c = R1C, sw1c = SW1C, m1c = M1C, vt1c = VT1C)
+            elif action == "SW5":
+                P0 = API.genCatSwimwear5()
+                addPack(P0)
+                database.removePoints(session['userID'],70)
+            elif action == "M5":
+                P0 = API.genCatMaid5()
+                addPack(P0)
+                database.removePoints(session['userID'],70)
+            elif action == "VT5":
+                P0 = API.genVtuber5()
+                addPack(P0)
+                database.removePoints(session['userID'],70)
+        return redirect("/")
 
 @app.route("/collection")
 def collection():
@@ -265,7 +190,7 @@ def collection():
     emptiness = False
     if(len(cards) == 0):
         emptiness = True
-    return render_template("collection.html", collection = cards, empty = emptiness)
+    return render_template("collection.html",pfp=database.getPFP(session['userID']),points=database.getPoints(session['userID']), collection = cards, empty = emptiness)
 
 @app.route("/welcome")
 def welcome():
@@ -278,7 +203,14 @@ def welcome():
     #print(topPoints)
     #print(topPacks)
     #print(topCards)
-    return render_template("welcome.html", points=points, packs=packs, cards=cards, PE=topPoints, C=topCards, O=topPacks)
+    #print(database.getPFP(session['userID']))
+    return render_template("welcome.html",pfp=database.getPFP(session['userID']),user=session['username'], points=points, packs=packs, cards=cards, PE=topPoints, C=topCards, O=topPacks)
+
+@app.route("/profile", methods=['GET','POST'])
+def profile():
+    print(request.form.get("profile"))
+    database.selectPFP(session['userID'],request.form.get("profile"))
+    return redirect("/welcome")
 
 @app.route("/logout")
 def logout():

@@ -11,9 +11,25 @@
     <nav class="p-6 text-indigo-600 border-4">
       <div class="container mx-auto flex justify-between items-center border-4">
         <a href="/"><img src={{ url_for('static', filename='bed.png') }} alt="bed" width="150" height="150"></a>
-        <ul class="flex space-x-6 mr-24">
-          <li><form action="/logout">
-          <input type="submit" class="hover:underline transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-lg p-3 text-white font-semibold text-base cursor-pointer" value="Logout"></form></li>
+        <ul class="flex space-x-6 mr-24 justify-center items-center">
+          <li>
+            {% if pfp == "" %}
+            <img class="w-14 h-14 rounded-full" src={{ url_for('static', filename='default.jpg') }} alt="pfp">
+            {% endif %}
+            {% if pfp != "" %}
+            <div class="h-14 w-14 overflow-hidden rounded-full">
+              <img class="object-cover w-full h-full" src="{{pfp}}" alt="newpfp">
+            </div>
+            {% endif %}
+          </li>
+          <li>
+            <p class="2xl text-white font-semibold text-base">{{points}}pts</p>
+          </li>
+          <li>
+            <form action="/logout">
+              <input type="submit" class="hover:underline transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-lg p-3 text-white font-semibold text-base cursor-pointer" value="Logout">
+            </form>
+          </li>
       </div>
     </nav>
     <div class="flex flex-col h-screen justify-center items-center">

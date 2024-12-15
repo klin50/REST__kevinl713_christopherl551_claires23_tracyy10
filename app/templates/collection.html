@@ -11,9 +11,25 @@
     <nav class="p-6 text-indigo-600 border-4">
       <div class="container mx-auto flex justify-between items-center border-4">
         <a href="/"><img src={{ url_for('static', filename='bed.png') }} alt="bed" width="150" height="150"></a>
-        <ul class="flex space-x-6 mr-24">
-          <li><form action="/logout">
-          <input type="submit" class="hover:underline transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-lg p-3 text-white font-semibold text-base cursor-pointer" value="Logout"></form></li>
+        <ul class="flex space-x-6 mr-24 justify-center items-center">
+          <li>
+            {% if pfp == "" %}
+            <img class="w-14 h-14 rounded-full" src={{ url_for('static', filename='default.jpg') }} alt="pfp">
+            {% endif %}
+            {% if pfp != "" %}
+            <div class="h-14 w-14 overflow-hidden rounded-full">
+              <img class="object-cover w-full h-full" src="{{pfp}}" alt="newpfp">
+            </div>
+            {% endif %}
+          </li>
+          <li>
+            <p class="2xl text-white font-semibold text-base">{{points}}pts</p>
+          </li>
+          <li>
+            <form action="/logout">
+              <input type="submit" class="hover:underline transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-lg p-3 text-white font-semibold text-base cursor-pointer" value="Logout">
+            </form>
+          </li>
       </div>
     </nav>
     {% if empty %}
@@ -31,16 +47,20 @@
     <div class="flex container mx-auto w-full items-center justify-center">
       <div class="w-full bg-white bg-opacity-90 shadow-lg rounded-lg border-4 mt-8">
         <h1 class="text-2xl font-semibold text-center p-12">My Collection</h1>
-        <div class="grid grid-cols-5 items-center p-4">
-        {% for card in collection %}
-          <div class="w-11/12 bg-white shadow-lg rounded-lg overflow-hidden border-4">
-            <img src={{card[0]}} alt="cat" class="w-full object-cover">
-            <div class="p-4">
-              <p class="text-gray-600 mt-2">{{card[1]}}</p>
+        <form class="grid grid-cols-5 gap-4 items-center p-4" action="/profile" method="POST">
+          {% for card in collection %}
+          <label class="w-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg overflow-hidden items-center justify-center flex p-2">
+            <input type="radio" name="profile" value="{{card[0]}}" class="hidden peer">
+            <div class="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col items-center justify-center peer-checked:ring-4 peer-checked:ring-yellow-500">
+              <img src={{card[0]}} alt="cat" class="w-full object-cover">
+              <div class="p-4 flex justify-center items-center">
+                <p class="text-gray-600 mt-2 text-center">{{card[1]}}</p>
+              </div>
             </div>
-          </div>
-        {% endfor %}
-        </div>
+          </label>
+          {% endfor %}
+          <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Set Profile</button>
+        </form>
       </div>
     </div>
     {% endif %}

@@ -19,7 +19,7 @@ def connect():
 def close(db):
     db.commit()
     db.close()
-    
+
 def auth(username):
     c,db = connect()
     info = c.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone() #Finds user's row based on the entered username
@@ -29,7 +29,7 @@ def auth(username):
 def createUser(username, password):
     c,db = connect()
     matching = c.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchall()
-    if (len(matching) == 0): 
+    if (len(matching) == 0):
         c.execute("INSERT INTO users(username, password, points, packs, cards, pfp) VALUES(?, ?, ?, ?, ?, ?)", (username, password, 0, 0, 0, ""))
         close(db)
         return 0
@@ -69,13 +69,13 @@ def addPoints(ID, points):
 #     print("points: ")
 #     print(test)
     close(db)
-    
+
 def removePoints(ID, points):
     c,db = connect()
     score = int(c.execute("SELECT points FROM users WHERE userID = ?", (ID,)).fetchone()[0]) - points
     c.execute("UPDATE users SET points=? WHERE userID = ?", (score, ID))
     close(db)
-    
+
 # def gacha(ID):
 #     c,db = connect()
 #     points = int(c.execute("SELECT points FROM users WHERE userID = ?", (ID,)).fetchall()[0][0]) - 10
@@ -84,7 +84,7 @@ def removePoints(ID, points):
 # #     print("points: ")
 # #     print(test)
 #     close(db)
-    
+
 def welcomeDisp(ID):
     c,db = connect()
     info = c.execute("SELECT points, packs, cards FROM users WHERE userID = ?", (ID,)).fetchone()
@@ -98,19 +98,19 @@ def leaderboard():
     cards = c.execute("SELECT username, cards FROM users ORDER BY cards DESC").fetchall()
     return points, packs, cards
     close(db)
-    
+
 def selectPFP(ID, pfpLink):
     c,db = connect()
     c.execute("UPDATE users SET pfp=? WHERE userID = ?", (pfpLink, ID))
     close(db)
-    
+
 def getPFP(ID):
     c,db = connect()
     pfp = c.execute("SELECT pfp FROM users WHERE userID = ?", (ID,)).fetchone()
     close(db)
-    return pfp
+    return pfp[0]
 
 # def checkUsed():
 #     c,db = connect()
-#     
+#
 #     close(db)

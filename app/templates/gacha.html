@@ -5,91 +5,74 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body>   
-        {% if request.method == "POST" %}
-        <div class="absolute columns-5">
-            {% if p0[0] != "DNE": %}
-                <img src = {{p0[0]}} alt="Error : Failed to Generate Card" width="150px" height="150px">
-                <p> {{p0[1]}} </p>
-            {% endif %}
-            {% if p1[0] != "DNE": %}
-                <img src = {{p1[0]}} alt="Error : Failed to Generate Card" width="150px" height="150px">
-                <p> {{p1[1]}} </p>
-            {% endif %}
-            {% if p2[0] != "DNE": %}
-                <img src = {{p2[0]}} alt="Error : Failed to Generate Card" width="150px" height="150px">
-                <p> {{p2[1]}} </p>
-            {% endif %}
-            {% if p3[0] != "DNE": %}
-                <img src = {{p3[0]}} alt="Error : Failed to Generate Card" width="150px" height="150px">
-                <p> {{p3[1]}} </p>
-            {% endif %}
-            {% if p4[0] != "DNE": %}
-                <img src = {{p4[0]}} alt="Error : Failed to Generate Card" width="150px" height="150px">
-                <p> {{p4[1]}} </p>
-            {% endif %}
-            {% if p5[0] != "DNE": %}
-                <img src = {{p5[0]}} alt="Error : Failed to Generate Card" width="150px" height="150px">
-                <p> {{p5[1]}} </p>
-            {% endif %}
-            {% if p6[0] != "DNE": %}
-                <img src = {{p6v}} alt="Error : Failed to Generate Card" width="150px" height="150px">
-                <p> {{p6[1]}} </p>
-            {% endif %}
-            {% if p7[0] != "DNE": %}
-                <img src = {{p7[0]}} alt="Error : Failed to Generate Card" width="150px" height="150px">
-                <p> {{p7[1]}} </p>
-            {% endif %}
-            {% if p8[0] != "DNE": %}
-                <img src = {{p8[0]}} alt="Error : Failed to Generate Card" width="150px" height="150px">
-                <p> {{p8[1]}} </p>
-            {% endif %}
-            {% if p9[0] != "DNE": %}
-                <img src = {{p9[0]}} alt="Error : Failed to Generate Card" width="150px" height="150px">
-                <p> {{p9[1]}} </p>
-            {% endif %}
+    <body class="bg-cover bg-fixed bg-gradient-to-r from-blue-400 to-purple-400 overflow-hidden">
+      {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              {% for message in messages %}
+                  <p>{{ message }}</p>
+              {% endfor %}
+          {% endif %}
+      {% endwith %}
+      <nav class="p-6 text-indigo-600 border-4">
+        <div class="container mx-auto flex justify-between items-center border-4">
+          <a href="/"><img src={{ url_for('static', filename='bed.png') }} alt="bed" width="150" height="150"></a>
+          <ul class="flex space-x-6 mr-24 justify-center items-center">
+            <li>
+              {% if pfp == "" %}
+              <img class="w-14 h-14 rounded-full" src={{ url_for('static', filename='default.jpg') }} alt="pfp">
+              {% endif %}
+              {% if pfp != "" %}
+              <div class="h-14 w-14 overflow-hidden rounded-full">
+                <img class="object-cover w-full h-full" src="{{pfp}}" alt="newpfp">
+              </div>
+              {% endif %}
+            </li>
+            <li>
+              <p class="2xl text-white font-semibold text-base">{{points}}pts</p>
+            </li>
+            <li>
+              <form action="/logout">
+                <input type="submit" class="hover:underline transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 rounded-lg p-3 text-white font-semibold text-base cursor-pointer" value="Logout">
+              </form>
+            </li>
         </div>
-        {% endif %}
-        
-        <h1> Your points: {{ P }} </h1>
-        <div class="columns-2">
-            <div> <!-- gacha random -->
-                <img src = {{r1c}} alt="Error : Failed to Generate 'Random Pack Cover'" class="w-48 object-cover">
-                <form action="/gacha" method="POST">
-                    <button type="submit" name="action" value="R1" class="border-4"> PULL x1 [cost 10] </button>
-                    <button type="submit" name="action" value="R10" class="border-4"> PULL x10 [cost 90]</button>
-                </form>
-            </div>
-            
-            <div class="break-after-column"> <!-- gacha swimwear -->
-                <img src = {{sw1c}} alt="Error : Failed to Generate 'Swimwear Pack Cover'" class="w-48 object-cover"">
-                <form action="/gacha" method="POST">
-                    <button type="submit" name="action" value="SW1" class="border-4"> PULL x1 [cost 15] </button>
-                    <button type="submit" name="action" value="SW10" class="border-4"> PULL x10 [cost 135]</button>
-                </form>
-            </div>
-            
-            <div> <!-- gacha maid -->
-                <img src = {{m1c}} alt="Error : Failed to Generate 'Maid Pack Cover'" class="w-48 object-cover">
-                <form action="/gacha" method="POST">
-                    <button type="submit" name="action" value="M1" class="border-4"> PULL x1 [cost 15] </button>
-                    <button type="submit" name="action" value="M10" class="border-4"> PULL x10 [cost 135]</button>
-                </form>
-            </div>
-            
-            <div> <!-- gacha vtuber -->
-                <img src = {{vt1c}} alt="Error : Failed to Generate 'VTuber Pack Cover'" class="w-48 object-cover">
-                <form action="/gacha" method="POST">
-                    <button type="submit" name="action" value="VT1" class="border-4"> PULL x1 [cost 15] </button>
-                    <button type="submit" name="action" value="VT10" class="border-4"> PULL x10 [cost 135]</button>
-                </form>
-            </div>
+      </nav>
+      <div class="flex flex-col h-screen justify-center items-center">
+        <div class="flex flex-row justify-between w-5/6 h-5/6 bg-opacity-90 bg-white shadow-lg rounded-lg -translate-y-20 border-4">
+          <div class="columns-2">
+              <div> <!-- gacha random -->
+                  <img src = {{r1c}} alt="Error : Failed to Generate 'Random Pack Cover'" class="w-48 object-cover">
+                  <form action="/gacha" method="POST">
+                      <button type="submit" name="action" value="R1" class="border-4"> PULL x1 [cost 10] </button>
+                      <button type="submit" name="action" value="R5" class="border-4"> PULL x5 [cost 45]</button>
+                  </form>
+              </div>
+
+              <div class="break-after-column"> <!-- gacha swimwear -->
+                  <img src = {{sw1c}} alt="Error : Failed to Generate 'Swimwear Pack Cover'" class="w-48 object-cover">
+                  <form action="/gacha" method="POST">
+                      <button type="submit" name="action" value="SW1" class="border-4"> PULL x1 [cost 15] </button>
+                      <button type="submit" name="action" value="SW5" class="border-4"> PULL x5 [cost 70]</button>
+                  </form>
+              </div>
+
+              <div> <!-- gacha maid -->
+                  <img src = {{m1c}} alt="Error : Failed to Generate 'Maid Pack Cover'" class="w-48 object-cover">
+                  <form action="/gacha" method="POST">
+                      <button type="submit" name="action" value="M1" class="border-4"> PULL x1 [cost 15] </button>
+                      <button type="submit" name="action" value="M5" class="border-4"> PULL x5 [cost 70]</button>
+                  </form>
+              </div>
+
+              <div> <!-- gacha vtuber -->
+                  <img src = {{vt1c}} alt="Error : Failed to Generate 'VTuber Pack Cover'" class="w-48 object-cover">
+                  <form action="/gacha" method="POST">
+                      <button type="submit" name="action" value="VT1" class="border-4"> PULL x1 [cost 15] </button>
+                      <button type="submit" name="action" value="VT5" class="border-4"> PULL x5 [cost 70]</button>
+                  </form>
+              </div>
+          </div>
         </div>
-        <br><br><br>
-        <div>
-            <form action="/welcome">
-                <button type="submit" class="border-4"> Back to Dashboard </button>
-            </form>
-        </div>
+      </div>
     </body>
 </html>
