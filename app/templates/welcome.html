@@ -12,7 +12,7 @@
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             {% for message in messages %}
-                <p>{{ message }}</p>
+                <p class="container rounded-lg mx-auto py-2 flex justify-center bg-red-300 text-red-900 border border-red-500">{{ message }}</p>
             {% endfor %}
         {% endif %}
     {% endwith %}
