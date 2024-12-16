@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
-    <body class="bg-cover bg-fixed bg-gradient-to-r from-blue-400 to-purple-400 overflow-hidden">
+    <body class="bg-cover bg-fixed bg-gradient-to-r from-blue-400 to-purple-400 w-full">
       {% with messages = get_flashed_messages() %}
           {% if messages %}
               {% for message in messages %}
@@ -37,41 +37,44 @@
             </li>
         </div>
       </nav>
-      <div class="flex flex-col h-screen justify-center items-center">
-        <div class="flex flex-row justify-between w-5/6 h-5/6 bg-opacity-90 bg-white shadow-lg rounded-lg -translate-y-20 border-4">
-          <div class="columns-2">
-              <div> <!-- gacha random -->
-                  <img src = {{r1c}} alt="Error : Failed to Generate 'Random Pack Cover'" class="w-48 object-cover">
-                  <form action="/gacha" method="POST">
-                      <button type="submit" name="action" value="R1" class="border-4"> PULL x1 [cost 10] </button>
-                      <button type="submit" name="action" value="R5" class="border-4"> PULL x5 [cost 45]</button>
-                  </form>
+      <div class="flex container mx-auto w-full items-center justify-center">
+        <div class="w-full bg-white bg-opacity-90 shadow-lg rounded-lg border-4 mt-8">
+          <h1 class="text-4xl font-semibold text-center p-12">Card Packs</h1>
+          <form action="/gacha" method="POST" class="w-full">
+            <div class="grid grid-cols-4 justify-center items-center gap-4 p-4 w-full">
+              <div class="flex flex-col items-center"> <!-- gacha random -->
+                <div class="w-full bg-gradient-to-r from-purple-500 to-yellow-500 rounded-lg overflow-hidden items-center justify-center flex p-2">
+                  <img src="{{r1c}}" alt="Error : Failed to Generate 'Random Pack Cover'" class="object-cover">
+                </div>
+                <button type="submit" name="action" value="R1" class="border-2 border-yellow-600 text-yellow-600 rounded-lg p-2 w-full mb-2 hover:bg-yellow-100 transition-all"> PULL x1 [cost 10] </button>
+                <button type="submit" name="action" value="R5" class="border-2 border-yellow-600 text-yellow-600 rounded-lg p-2 w-full hover:bg-yellow-100 transition-all"> PULL x5 [cost 45]</button>
               </div>
 
-              <div class="break-after-column"> <!-- gacha swimwear -->
-                  <img src = {{sw1c}} alt="Error : Failed to Generate 'Swimwear Pack Cover'" class="w-48 object-cover">
-                  <form action="/gacha" method="POST">
-                      <button type="submit" name="action" value="SW1" class="border-4"> PULL x1 [cost 15] </button>
-                      <button type="submit" name="action" value="SW5" class="border-4"> PULL x5 [cost 70]</button>
-                  </form>
+              <div class="flex flex-col items-center"> <!-- gacha swimwear -->
+                <div class="w-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg overflow-hidden items-center justify-center flex p-2">
+                  <img src="{{sw1c}}" alt="Error : Failed to Generate 'Swimwear Pack Cover'" class="object-cover">
+                </div>
+                <button type="submit" name="action" value="SW1" class="border-2 border-blue-600 text-blue-600 rounded-lg p-2 w-full mb-2 hover:bg-blue-100 transition-all"> PULL x1 [cost 15] </button>
+                <button type="submit" name="action" value="SW5" class="border-2 border-blue-600 text-blue-600 rounded-lg p-2 w-full hover:bg-blue-100 transition-all"> PULL x5 [cost 70]</button>
               </div>
 
-              <div> <!-- gacha maid -->
-                  <img src = {{m1c}} alt="Error : Failed to Generate 'Maid Pack Cover'" class="w-48 object-cover">
-                  <form action="/gacha" method="POST">
-                      <button type="submit" name="action" value="M1" class="border-4"> PULL x1 [cost 15] </button>
-                      <button type="submit" name="action" value="M5" class="border-4"> PULL x5 [cost 70]</button>
-                  </form>
+              <div class="flex flex-col items-center"> <!-- gacha maid -->
+                <div class="w-full bg-gradient-to-r from-purple-500 to-red-500 rounded-lg overflow-hidden items-center justify-center flex p-2">
+                  <img src="{{m1c}}" alt="Error : Failed to Generate 'Maid Pack Cover'" class="object-cover">
+                </div>
+                <button type="submit" name="action" value="M1" class="border-2 border-red-600 text-red-600 rounded-lg p-2 w-full mb-2 hover:bg-red-100 transition-all"> PULL x1 [cost 15] </button>
+                <button type="submit" name="action" value="M5" class="border-2 border-red-600 text-red-600 rounded-lg p-2 w-full hover:bg-red-100 transition-all"> PULL x5 [cost 70]</button>
               </div>
 
-              <div> <!-- gacha vtuber -->
-                  <img src = {{vt1c}} alt="Error : Failed to Generate 'VTuber Pack Cover'" class="w-48 object-cover">
-                  <form action="/gacha" method="POST">
-                      <button type="submit" name="action" value="VT1" class="border-4"> PULL x1 [cost 15] </button>
-                      <button type="submit" name="action" value="VT5" class="border-4"> PULL x5 [cost 70]</button>
-                  </form>
+              <div class="flex flex-col items-center"> <!-- gacha vtuber -->
+                <div class="w-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg overflow-hidden items-center justify-center flex p-2">
+                  <img src="{{vt1c}}" alt="Error : Failed to Generate 'VTuber Pack Cover'" class="object-cover">
+                </div>
+                <button type="submit" name="action" value="VT1" class="border-2 border-pink-600 text-pink-600 rounded-lg p-2 w-full mb-2 hover:bg-pink-100 transition-all"> PULL x1 [cost 15] </button>
+                <button type="submit" name="action" value="VT5" class="border-2 border-pink-600 text-pink-600 rounded-lg p-2 w-full hover:bg-pink-100 transition-all"> PULL x5 [cost 70]</button>
               </div>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
     </body>
