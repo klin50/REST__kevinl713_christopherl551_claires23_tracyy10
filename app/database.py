@@ -88,7 +88,7 @@ def removePoints(ID, points):
 def welcomeDisp(ID):
     c,db = connect()
     info = c.execute("SELECT points, packs, cards FROM users WHERE userID = ?", (ID,)).fetchone()
-    print(info)
+    #print(info)
     close(db)
     return info[0], info[1], info[2]
 
@@ -110,8 +110,3 @@ def getPFP(ID):
     pfp = c.execute("SELECT pfp FROM users WHERE userID = ?", (ID,)).fetchone()
     close(db)
     return pfp[0]
-
-# def checkUsed():
-#     c,db = connect()
-#
-#     close(db)
