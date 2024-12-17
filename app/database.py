@@ -6,6 +6,12 @@ def build():
 
     c.execute("CREATE TABLE IF NOT EXISTS users(username TEXT, password TEXT, points INTEGER, packs INTEGER, cards INTEGER, pfp TEXT, userID INTEGER PRIMARY KEY AUTOINCREMENT)")
     c.execute("CREATE TABLE IF NOT EXISTS cards(imgLink TEXT, advice TEXT, userID INTEGER, FOREIGN KEY (userID) REFERENCES users(userID))")
+    createUser("admin","admin")
+    createUser("comp","comp")
+    createUser("tester","tester")
+    addPoints(auth("admin")[6],500)
+    addPoints(auth("comp")[6],50)
+    addPoints(auth("tester")[6],5)
     #c.execute("CREATE TABLE IF NOT EXISTS used(advice BOOLEAN, insult BOOLEAN, image BOOLEAN, question BOOLEAN, propertyID TEXT)")
 
     database.commit()
