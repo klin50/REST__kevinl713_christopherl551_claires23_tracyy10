@@ -1,3 +1,6 @@
+tracyY -- 2024-12-16
+Cards flip with advice displayed on back.
+
 tracyY -- 2024-12-11
 Gacha is done aside from styling, checking points, and storing cards
 

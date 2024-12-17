@@ -4,8 +4,10 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.tailwindcss.com"></script>
+        <link href="static/css/style.css" rel="stylesheet">
     </head>
     <body class="bg-cover bg-fixed bg-gradient-to-r from-blue-400 to-purple-400 w-full">
+    
       {% with messages = get_flashed_messages() %}
           {% if messages %}
               {% for message in messages %}
@@ -13,6 +15,7 @@
               {% endfor %}
           {% endif %}
       {% endwith %}
+      
       <nav class="p-6 text-indigo-600">
         <div class="container mx-auto flex justify-between items-center">
           <a href="/"><img src={{ url_for('static', filename='bed.png') }} alt="bed" width="150" height="150"></a>
@@ -37,9 +40,11 @@
             </li>
         </div>
       </nav>
+      
       <div class="flex container mx-auto w-full items-center justify-center">
         <div class="w-full bg-white bg-opacity-90 shadow-lg rounded-lg border-4 mt-8">
           <h1 class="text-4xl font-semibold text-center p-6">Card Packs</h1>
+          
           {% if cards != [] %}
           <h1 class="text-2xl font-semibold text-center p-6">{{cards|length}}x Pulled</h1>
           <div class="grid grid-cols-5 justify-center items-center gap-4 p-4 w-full">
@@ -50,6 +55,7 @@
             {% endfor %}
           </div>
           {% endif %}
+          
           {% if cards == [] %}
           <form action="/gacha" method="POST" class="w-full">
             <div class="grid grid-cols-4 justify-center items-center gap-4 p-4 w-full">

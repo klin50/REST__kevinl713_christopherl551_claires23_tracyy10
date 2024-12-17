@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-
+    <link href="static/css/style.css" rel="stylesheet">
   </head>
 
   <body class="bg-cover bg-fixed bg-gradient-to-r from-blue-400 to-purple-400 w-full">
@@ -56,10 +56,12 @@
             {% for card in collection %}
             <label class="w-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg overflow-hidden items-center justify-center flex p-2">
               <input type="radio" name="profile" value="{{card[0]}}" class="hidden peer">
-              <div class="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col items-center justify-center peer-checked:ring-4 peer-checked:ring-yellow-500">
-                <img src={{card[0]}} alt="cat" class="w-full object-cover">
-                <div class="p-4 flex justify-center items-center">
-                  <p class="text-gray-600 mt-2 text-center">{{card[1]}}</p>
+              <div class="flip-card bg-white shadow-lg rounded-lg overflow-hidden flex flex-col items-center justify-center peer-checked:ring-4 peer-checked:ring-yellow-500">
+                <div class="flip-card-inner">
+                    <img src={{card[0]}} alt="cat" class="flip-card-front w-full object-cover">
+                    <div class="flip-card-back p-4 flex justify-center items-center border-double border-8 border-neutral-100">
+                        <p class="mt-2 text-center">{{card[1]}}</p>
+                    </div>
                 </div>
               </div>
             </label>
@@ -72,13 +74,6 @@
       </div>
     </div>
     {% endif %}
-
-<div class="group">
-    <div class="size-20 transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-        <img src="https://cdn.nekosia.cat/images/catgirl/66abfca6973afa5de385115d.jpg">
-    </div>
-</div>
-
   </body>
 
 </html>
