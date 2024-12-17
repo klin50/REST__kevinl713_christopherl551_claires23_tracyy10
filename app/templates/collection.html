@@ -53,12 +53,12 @@
         <h1 class="text-1xl text-center pt-5">Select a card to set it as your profile</h1>
         <form class="grid grid-cols-3 gap-4 items-center p-4" action="/profile" method="POST">
           {% for card in collection %}
-          <div class="group h-96 w-96">
+          <div class="group h-80 w-80">
             <label class="w-full h-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg overflow-hidden items-center justify-center flex p-2">
               <input type="radio" name="profile" value="{{card[0]}}" class="hidden peer">
               <div class="relative h-full w-full bg-white rounded-lg flex flex-col items-center justify-center peer-checked:ring-4 peer-checked:ring-yellow-500 transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
                 <div class="absolute h-full w-full flex justify-center items-center">
-                  <img src={{card[0]}} alt="cat" class="absolute w-full object-cover h-80 w-auto">
+                  <img src={{card[0]}} alt="cat" class="absolute w-full object-cover h-72 w-auto">
                 </div>
                 <div class="absolute h-full w-full rounded-lg bg-gradient-to-r from-purple-700/80 to-blue-700/80 text-center text-white [backface-visibility:hidden] [transform:rotateY(180deg)]">
                   <div class="p-4 flex justify-center items-center min-h-full">
