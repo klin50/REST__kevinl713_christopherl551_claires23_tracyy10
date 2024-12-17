@@ -18,7 +18,7 @@ app = Flask(__name__)
 secret = os.urandom(32)
 app.secret_key = secret
 
-database.build()
+database.build()#This runs twice
 
 @app.route("/")
 def home():
