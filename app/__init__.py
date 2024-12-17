@@ -18,7 +18,7 @@ app = Flask(__name__)
 secret = os.urandom(32)
 app.secret_key = secret
 
-database.build()
+database.build()#This runs twice
 
 @app.route("/")
 def home():
@@ -76,8 +76,8 @@ def selectD():
             trivia = API.genTriviaDifficulty(qType)
         elif qType in ["music", "sport_and_leisure", "film_and_tv", "arts_and_literature", "history", "society_and_culture", "science", "geography", "food_and_drink", "general_knowledge"]:
             trivia = API.genTriviaCategory(qType)
-        question = API.getQuestion(trivia)
         ID = API.getTriviaID(trivia)
+        question = API.getQuestion(trivia)
         category = API.getCategory(trivia)
         difficulty = API.getDifficulty(trivia)
         bg = "ugh"
@@ -139,11 +139,7 @@ def gacha():
         return redirect("/login")
     points = database.getPoints(session['userID'])
     if request.method == "GET":
-        R1C = API.getCat(API.genCat()) # generate cover image of Random Pack
-        SW1C = API.getCat(API.genCatSwimwear()) # generate cover image of Swimwear Pack
-        M1C = API.getCat(API.genCatMaid()) # generate cover image of Random Pack
-        VT1C = API.getCat(API.genVtuber()) # generate cover image of Random Pack
-        return render_template("gacha.html", pfp=database.getPFP(session['userID']), points=points, r1c = R1C, sw1c = SW1C, m1c = M1C, vt1c = VT1C)
+        return render_template("gacha.html",cards=[], pfp=database.getPFP(session['userID']), points=points)
     else:
         action = request.form.get("action")
         if action[0] == "R":
@@ -152,7 +148,8 @@ def gacha():
                     flash("INSUFFICIENT POINTS")
                     return redirect("/")
                 else:
-                    database.addCard(API.getCat(API.genCat()), API.getAdvice(API.genAdvice()), session['userID'])
+                    P0 = [API.getCat(API.genCat())]
+                    addPack(P0)
                     database.removePoints(session['userID'],10)
             if action == "R5":
                 if points < 45:
@@ -167,13 +164,16 @@ def gacha():
                 flash("INSUFFICIENT POINTS")
                 return redirect("/")
             elif action == "SW1":
-                database.addCard(API.getCat(API.genCatSwimwear()), API.getAdvice(API.genAdvice()), session['userID'])
+                P0 = [API.getCat(API.genCatSwimwear())]
+                addPack(P0)
                 database.removePoints(session['userID'],15)
             elif action == "M1":
-                database.addCard(API.getCat(API.genCatMaid()), API.getAdvice(API.genAdvice()), session['userID'])
+                P0 = [API.getCat(API.genCatMaid())]
+                addPack(P0)
                 database.removePoints(session['userID'],15)
             elif action == "VT1":
-                database.addCard(API.getCat(API.genVtuber()), API.getAdvice(API.genAdvice()), session['userID'])
+                P0 = [API.getCat(API.genVtuber())]
+                addPack(P0)
                 database.removePoints(session['userID'],15)
         if action[-1] == "5":
             if points < 70:
@@ -191,7 +191,7 @@ def gacha():
                 P0 = API.genVtuber5()
                 addPack(P0)
                 database.removePoints(session['userID'],70)
-        return redirect("/")
+        return render_template("gacha.html",cards=P0 ,pfp=database.getPFP(session['userID']), points=points)
 
 @app.route("/collection")
 def collection():
@@ -228,8 +228,9 @@ def profile():
         flash("Log in to continue!")
         return redirect("/login")
     #print(request.form.get("profile"))
-    database.selectPFP(session['userID'],request.form.get("profile"))
-    return redirect("/welcome")
+    if request.form.get("profile") != None:
+        database.selectPFP(session['userID'],request.form.get("profile"))
+    return redirect("/collection")
 
 @app.route("/logout")
 def logout():

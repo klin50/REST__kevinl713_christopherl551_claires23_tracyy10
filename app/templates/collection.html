@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
   </head>
 
   <body class="bg-cover bg-fixed bg-gradient-to-r from-blue-400 to-purple-400 w-full">
-    <nav class="p-6 text-indigo-600 border-4">
-      <div class="container mx-auto flex justify-between items-center border-4">
+    <nav class="p-6 text-indigo-600">
+      <div class="container mx-auto flex justify-between items-center">
         <a href="/"><img src={{ url_for('static', filename='bed.png') }} alt="bed" width="150" height="150"></a>
         <ul class="flex space-x-6 mr-24 justify-center items-center">
           <li>
@@ -35,11 +35,13 @@
     </nav>
     {% if empty %}
     <div class="flex justify-center h-screen">
-      <div class="w-5/6 h-5/6 bg-white bg-opacity-90 shadow-lg rounded-lg border-4 flex justify-center items-start p-8">
+      <div class="w-5/6 h-5/6 bg-white bg-opacity-90 shadow-lg rounded-lg border-4 flex flex-col justify-between p-8">
         <div class="text-center">
           <h1 class="text-2xl font-semibold">My Collection</h1>
-          <p class="text-2xl">You have no cards</p>
-          <h1 class="text-6xl">WOMP WOMP</h1>
+          <h1 class="text-6xl p-4">WOMP WOMP</h1>
+        </div>
+        <div class="flex justify-center items-center flex-grow">
+          <h2 class="text-3xl">Barren wasteland out here</h2>
         </div>
       </div>
     </div>
@@ -67,7 +69,10 @@
             </label>
           </div>
           {% endfor %}
-          <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Set Profile</button>
+          </div>
+          <div class="flex justify-end p-4">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Set Profile</button>
+          </div>
         </form>
       </div>
     </div>
