@@ -116,9 +116,9 @@ def retAnswer():
             if diff == "easy":
                 database.addPoints(session['userID'], 1)
             elif diff == "medium":
-                database.addPoints(session['userID'], 2)
-            else:
                 database.addPoints(session['userID'], 3)
+            else:
+                database.addPoints(session['userID'], 5)
         else:
             bg = "red-400"
             insult = API.genInsult()
